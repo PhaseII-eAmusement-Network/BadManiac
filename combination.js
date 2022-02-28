@@ -10,6 +10,10 @@ client.on("ready", () => {
   })
 
 client.on("messageCreate", msg => {
+  if (msg.content.includes("69") && msg.content.length <= 5) {
+    msg.reply("nice lol");
+  }
+
   if (msg.content === "ping") {
     msg.reply("pong");
   }
