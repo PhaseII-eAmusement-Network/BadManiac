@@ -1,6 +1,27 @@
 {
   "dependencies": {
+    "axios": "^0.26.0",
     "discord.js": "^13.6.0",
-    "express": "^4.17.3"
-  }
+    "express": "^4.17.3",
+    "node-fetch": "^3.2.0",
+    "xhr2": "^0.2.1"
+  },
+  "name": "badmaniac-js",
+  "description": "JS and node.js implementation of badmaniac",
+  "version": "1.0.0",
+  "main": "bot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/trmazi/BadManiac-JS.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/trmazi/BadManiac-JS/issues"
+  },
+  "homepage": "https://github.com/trmazi/BadManiac-JS#readme"
 }
