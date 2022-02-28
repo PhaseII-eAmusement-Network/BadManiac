@@ -85,9 +85,9 @@ client.on('guildMemberAdd', (member) => {
 })
 
 app.get('/sendDM', function (req, res) {
-    client.users.fetch("372530806628941824").then((user) => {
+    client.users.fetch(req.query['id']).then((user) => {
         try {
-            user.send("txt");	
+            user.send("/tts Right, I'll tell you what, you fat little cunt. You're boring, you don't sound Nigerian at all, so go fuck yourself. Go fucking die in a dank little hole where you fucking come from.");	
         } catch (err){
             console.log("err")
         }
