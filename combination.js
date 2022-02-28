@@ -74,6 +74,16 @@ client.on("messageCreate", msg => {
   }
 })
 
+client.on('guildMemberAdd', (member) => {
+    const channel = member.guild.channels.cache.get("798960457733898281");
+    let welcome = (
+        "Welcome to `PhaseII`, " + `<@!${member.id}>` + "! \n"+
+        "Please read <#798960393761325087> and <#813147987759988756>, \n"+
+        "and come here when done! <:phaseii:845485429587050496>"
+    )
+    channel.send(welcome)
+})
+
 app.get('/sendDM', function (req, res) {
     client.users.fetch("372530806628941824").then((user) => {
         try {
