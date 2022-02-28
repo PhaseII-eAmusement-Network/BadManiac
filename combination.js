@@ -1,6 +1,7 @@
 const https = require('https')
 var express = require('express');
 const Discord = require("discord.js");
+const { MessageEmbed } = require('discord.js');
 var app = express();
 var fs = require("fs");
 const client = new Discord.Client({intents: ["GUILDS", "GUILD_MEMBERS", "GUILD_MESSAGES", "DIRECT_MESSAGES"]})
@@ -32,10 +33,22 @@ client.on("messageCreate", msg => {
     const options = new URL('https://restfulsleep.phaseii.network/getlatestnews');
     
     const req = https.request(options, res => {
-        console.log(`statusCode: ${res.statusCode}`)
-    
         res.on('data', d => {
-            process.stdout.write(d)
+            var news = JSON.parse(d)
+            for (let post = 0; post < news.news.length; post++) {
+                let cleanbody = news.news[post].body.replace('<br>', "").replace('</br>', "")
+                const exampleEmbed = new MessageEmbed()
+                    .setTitle('Latest News')
+                    .setAuthor({ name: 'PhaseII eAmusement Network', iconURL: 'https://media1.giphy.com/media/3ov9jU4ycPvfrPTsly/giphy-downsized-large.gif', url: 'https://phaseii.network' })
+                    .addFields(
+                        { name: 'Title', value: news.news[post].title, inline: false },
+                        { name: 'Body', value: cleanbody, inline: true },
+                    )
+                    //.setImage('https://i.imgur.com/AfFp7pu.png')
+                    .setFooter({ text: 'Posted on: ' + news.news[post].timestamp});
+
+                    msg.reply({ embeds: [exampleEmbed] })
+            }
         })
     })
     
@@ -44,8 +57,6 @@ client.on("messageCreate", msg => {
     })
     
     req.end()
-
-    msg.reply("")
   } else if (msg.content == 'BM! help') {
     msg.reply(
         "```"+
