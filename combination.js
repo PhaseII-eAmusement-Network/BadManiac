@@ -95,7 +95,32 @@ app.get('/sendDM', function (req, res) {
     res.end()
 })
 
-var server = app.listen(8081, function () {
+app.get('/sendScorecard', function (req, res) {
+  discordid = req.query['did']
+  userid = req.query['uid']
+  scorecardid = req.query['sid']
+
+  console.log(discordid)
+
+  if(discordid == undefined) {
+    throw 'no discord id'
+  } else if(userid == undefined) {
+    throw 'no user id'
+  } else if(scorecardid == undefined) {
+    throw 'no scorecard id'
+  }
+
+  client.users.fetch(req.query['id']).then((user) => {
+      try {
+          user.send("/tts Right, I'll tell you what, you fat little cunt. You're boring, you don't sound Nigerian at all, so go fuck yourself. Go fucking die in a dank little hole where you fucking come from.");	
+      } catch (err){
+          console.log("err")
+      }
+  })
+  res.end()
+})
+
+var server = app.listen(8017, function () {
    var host = server.address().address
    var port = server.address().port
    console.log("Example app listening at http://%s:%s", host, port)
