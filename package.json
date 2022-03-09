@@ -1,6 +1,8 @@
 {
   "dependencies": {
     "axios": "^0.26.0",
+    "bottom": "^0.1.0",
+    "bottomify": "^0.3.0",
     "discord.js": "^13.6.0",
     "express": "^4.17.3",
     "node-fetch": "^3.2.0",

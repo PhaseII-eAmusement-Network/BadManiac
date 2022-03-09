@@ -1,5 +1,6 @@
 const https = require('https')
 var express = require('express');
+const bottomify = require('bottomify');
 const Discord = require("discord.js");
 const { MessageEmbed } = require('discord.js');
 var app = express();
@@ -26,6 +27,12 @@ client.on("messageCreate", msg => {
   } else if (msg.content.toLowerCase().includes('rias')) {
     msg.reply("thank you for following the rules. \n"+
     "https://thumbs.gfycat.com/ColossalCreamyArrowworm-max-1mb.gif")
+  }
+
+  if (msg.content.slice(0, 13) == "BM! to_bottom") {
+    msg.reply(bottomify.encode(msg.content.slice(14)))
+  } else if (msg.content.slice(0, 15) == "BM! from_bottom") {
+    msg.reply(bottomify.decode(msg.content.slice(16)))
   }
 
   // Actual bot commands now lol
@@ -66,6 +73,8 @@ client.on("messageCreate", msg => {
         "BadManiac commands: \n"+
         "BM! help: Returns this help message. \n"+
         "BM! news: Returns the latest news post. \n"+
+        "BM! to_bottom: Encodes any text after your message to bottom format. \n"+
+        "BM! from_bottom: Decodes your bottom message to string. \n"+
         "BM!: Sends YouTube link to Bad Maniacs. \n"+
         "```"
     )

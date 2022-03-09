@@ -1,0 +1,27 @@
+{
+  "name": "bottom",
+  "version": "0.1.0",
+  "description": "Keep window/elements scrolled to bottom based off users intentions",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/scottcorgan/bottom.git"
+  },
+  "keywords": [
+    "scroll",
+    "bottom",
+    "div",
+    "element",
+    "chat",
+    "activity"
+  ],
+  "author": "Scott Corgan",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/scottcorgan/bottom/issues"
+  },
+  "homepage": "https://github.com/scottcorgan/bottom#readme"
+}
