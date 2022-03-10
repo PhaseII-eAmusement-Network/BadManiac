@@ -104,7 +104,7 @@ app.get('/sendDM', function (req, res) {
     res.end()
 })
 
-app.get('/sendScorecardPM', function (req, res) {
+app.post('/sendScorecardPM', function (req, res) {
   console.log(req)
 
   discordid = req.query['did']
