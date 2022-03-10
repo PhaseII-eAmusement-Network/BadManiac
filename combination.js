@@ -120,7 +120,7 @@ app.post('/sendScorecardPM', function (req, res) {
     throw 'no game'
   }
 
-  console.log(json.parse(scorecard))
+  console.log(JSON.parse(scorecard))
 
   client.users.fetch(discordid).then((user) => {
       try {
