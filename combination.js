@@ -108,7 +108,7 @@ app.post('/sendScorecardPM', function (req, res) {
   game = req.header("game")
   discordid = req.header('discord_id')
   arcade = req.header('arcade')
-  scorecard = req.header('scorecard')
+  scorecard = req.query['scorecard']
 
   if(discordid == undefined) {
     throw 'no discord id'
