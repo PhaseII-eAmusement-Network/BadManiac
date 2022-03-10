@@ -104,7 +104,9 @@ app.get('/sendDM', function (req, res) {
     res.end()
 })
 
-app.get('/sendScorecard', function (req, res) {
+app.get('/sendScorecardPM', function (req, res) {
+  console.log(req)
+
   discordid = req.query['did']
   userid = req.query['uid']
   scorecardid = req.query['sid']
