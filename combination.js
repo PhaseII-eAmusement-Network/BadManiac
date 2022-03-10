@@ -108,7 +108,7 @@ app.post('/sendScorecardPM', function (req, res) {
   game = req.header("game")
   discordid = req.header('discord_id')
   arcade = req.header('arcade')
-  scorecard = req.query['scorecard']
+  scorecard = JSON.parse(req.query['scorecard'])
 
   if(discordid == undefined) {
     throw 'no discord id'
@@ -120,11 +120,65 @@ app.post('/sendScorecardPM', function (req, res) {
     throw 'no game'
   }
 
-  console.log(JSON.parse(scorecard))
+  author = { name: 'PhaseII eAmusement Network', iconURL: 'https://media1.giphy.com/media/3ov9jU4ycPvfrPTsly/giphy-downsized-large.gif', url: 'https://phaseii.network' }
+
+  /*
+  {
+    game: 'Beatmania IIDX PENDUAL',
+    username: 'TRMAZI',
+    song_title: 'Bad Maniacs',
+    artist: 'kors k as teranoid',
+    difficulty: 7,
+    target_rank: 'NO PLAY',
+    rank: 'FAILED',
+    target_exscore: 890,
+    exscore: 0,
+    pgreat: 0,
+    great: 0,
+    good: 0,
+    bad: 0,
+    poor: 50,
+    combo: 50,
+    fast: 0,
+    slow: 0
+  }
+
+  */
+
+  if(game == "iidx"){
+    const embedCard = new MessageEmbed()
+      .setTitle(scorecard.song_title + " - "+scorecard.artist)
+      .setDescription({description: "Login to view the whole score."})
+      .setAuthor(author)
+      .addFields(
+          { name: 'DJ Name', value: scorecard.username, inline: false },
+          { name: 'Difficulty', value: scorecard.difficulty, inline: true },
+          { name: 'Target EXScore', value: scorecard.target_exscore, inline: true },
+          { name: 'Your EXScore', value: scorecard.exscore, inline: true },
+          { name: 'Clear Status', value: scorecard.rank, inline: false },
+          { name: 'Perfect Greats', value: scorecard.pgreat, inline: true },
+          { name: 'Greats', value: scorecard.great, inline: true },
+          { name: 'Goods', value: scorecard.good, inline: true },
+          { name: 'Bads', value: scorecard.bad, inline: true },
+          { name: 'Poors', value: scorecard.poor, inline: true },
+          { name: 'Combo Breaks', value: scorecard.combo, inline: true },
+          { name: 'Fasts', value: scorecard.fast, inline: true },
+          { name: 'Slows', value: scorecard.slow, inline: true },
+      )
+      .setFooter({ text: 'Recorded on: ' + Date().toLocaleString()});
+
+  } else if(game == 'ddr'){
+    //do ddr things
+  } else if(game == 'pnm'){
+    //do popn things
+  } else if(game == 'sdvx'){
+    //do sdvx things
+  }
 
   client.users.fetch(discordid).then((user) => {
       try {
-          user.send("Right, I'll tell you what, you fat little cunt. You're boring, you don't sound Nigerian at all, so go fuck yourself. Go fucking die in a dank little hole where you fucking come from.");	
+          user.send('From your game of '+scorecard.game+' at '+arcade);
+          user.send({ embeds: [embedCard] });	
       } catch (err){
           console.log("err")
       }
