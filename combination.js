@@ -105,7 +105,10 @@ app.get('/sendDM', function (req, res) {
 })
 
 app.post('/sendScorecardPM', function (req, res) {
-  console.log(req)
+  console.log(req.headers)
+  console.log(req.query['discord_id'])
+  console.log(req.query['arcade'])
+  console.log(req.query['scorecard'])
 
   discordid = req.query['did']
   userid = req.query['uid']
