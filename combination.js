@@ -104,8 +104,6 @@ app.get('/sendDM', function (req, res) {
     res.end()
 })
 
-app.use(express.json());
-
 app.post('/sendScorecardPM', function (req, res) {
   game = req.header("game")
   discordid = req.header('discord_id')
