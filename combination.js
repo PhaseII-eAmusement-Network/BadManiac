@@ -144,25 +144,6 @@ app.post('/sendScorecardPM', function (req, res) {
   }
   */
 
-  console.log(scorecard.game)
-  console.log(scorecard.username)
-  console.log(scorecard.song_title)
-  console.log(scorecard.artist)
-  console.log(scorecard.difficulty)
-  console.log(scorecard.target_rank)
-  console.log(scorecard.rank)
-  console.log(scorecard.target_exscore)
-  console.log(scorecard.exscore)
-  console.log(scorecard.pgreat)
-  console.log(scorecard.great)
-  console.log(scorecard.good)
-  console.log(scorecard.bad)
-  console.log(scorecard.poor)
-  console.log(scorecard.combo)
-  console.log(scorecard.fast)
-  console.log(scorecard.slow)
-
-
   if(game == "iidx"){
     embedCard = new MessageEmbed()
       .setTitle(scorecard.song_title + " - "+scorecard.artist)
@@ -170,19 +151,19 @@ app.post('/sendScorecardPM', function (req, res) {
       .setAuthor(author)
       .addFields(
           { name: 'DJ Name', value: scorecard.username, inline: false },
-          { name: 'Difficulty', value: scorecard.difficulty, inline: true },
-          { name: 'Target EXScore', value: scorecard.target_exscore, inline: true },
-          { name: 'Your EXScore', value: scorecard.exscore, inline: true },
+          { name: 'Difficulty', value: scorecard.difficulty.toString(), inline: true },
+          { name: 'Target EXScore', value: scorecard.target_exscore.toString(), inline: true },
+          { name: 'Your EXScore', value: scorecard.exscore.toString(), inline: true },
           { name: 'Best Status', value: scorecard.target_rank, inline: true },
           { name: 'Clear Status', value: scorecard.rank, inline: false },
-          { name: 'Perfect Greats', value: scorecard.pgreat, inline: true },
-          { name: 'Greats', value: scorecard.great, inline: true },
-          { name: 'Goods', value: scorecard.good, inline: true },
-          { name: 'Bads', value: scorecard.bad, inline: true },
-          { name: 'Poors', value: scorecard.poor, inline: true },
-          { name: 'Combo Breaks', value: scorecard.combo, inline: true },
-          { name: 'Fasts', value: scorecard.fast, inline: true },
-          { name: 'Slows', value: scorecard.slow, inline: true },
+          { name: 'Perfect Greats', value: scorecard.pgreat.toString(), inline: true },
+          { name: 'Greats', value: scorecard.great.toString(), inline: true },
+          { name: 'Goods', value: scorecard.good.toString(), inline: true },
+          { name: 'Bads', value: scorecard.bad.toString(), inline: true },
+          { name: 'Poors', value: scorecard.poor.toString(), inline: true },
+          { name: 'Combo Breaks', value: scorecard.combo.toString(), inline: true },
+          { name: 'Fasts', value: scorecard.fast.toString(), inline: false },
+          { name: 'Slows', value: scorecard.slow.toString(), inline: true },
       )
       .setFooter({ text: 'Recorded on: ' + Date().toLocaleString()});
 
