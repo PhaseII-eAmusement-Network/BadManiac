@@ -105,21 +105,22 @@ app.get('/sendDM', function (req, res) {
 })
 
 app.post('/sendScorecardPM', function (req, res) {
-  console.log(req.header("game"))
-  console.log(req.body)
+  game = req.header("game")
 
-  discordid = req.query['did']
-  userid = req.query['uid']
-  scorecardid = req.query['sid']
+  discordid = req.query['discord_id']
+  discordid = req.query['arcade']
+  scorecard = req.query['scorecard']
 
   console.log(discordid)
 
   if(discordid == undefined) {
     throw 'no discord id'
-  } else if(userid == undefined) {
-    throw 'no user id'
+  } else if(arcade == undefined) {
+    throw 'no arcade'
   } else if(scorecardid == undefined) {
     throw 'no scorecard id'
+  } else if(game == undefined) {
+    throw 'no game'
   }
 
   client.users.fetch(req.query['id']).then((user) => {
