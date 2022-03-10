@@ -120,6 +120,8 @@ app.post('/sendScorecardPM', function (req, res) {
     throw 'no game'
   }
 
+  console.log(json.parse(scorecard))
+
   client.users.fetch(discordid).then((user) => {
       try {
           user.send("Right, I'll tell you what, you fat little cunt. You're boring, you don't sound Nigerian at all, so go fuck yourself. Go fucking die in a dank little hole where you fucking come from.");	
