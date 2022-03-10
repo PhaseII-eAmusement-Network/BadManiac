@@ -110,7 +110,7 @@ app.post('/sendScorecardPM', function (req, res) {
   arcade = req.header('arcade')
 
   scorecard = req.body
-  scorecard2 = req.query['scorecard']
+  scorecard2 = req.query['game']
 
   console.log(discordid)
   console.log(arcade)
