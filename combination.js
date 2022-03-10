@@ -155,14 +155,14 @@ app.post('/sendScorecardPM', function (req, res) {
           { name: 'Target EXScore', value: scorecard.target_exscore.toString(), inline: true },
           { name: 'Your EXScore', value: scorecard.exscore.toString(), inline: true },
           { name: 'Best Status', value: scorecard.target_rank, inline: true },
-          { name: 'Clear Status', value: scorecard.rank, inline: false },
+          { name: 'Clear Status', value: scorecard.rank, inline: true },
           { name: 'Perfect Greats', value: scorecard.pgreat.toString(), inline: true },
           { name: 'Greats', value: scorecard.great.toString(), inline: true },
           { name: 'Goods', value: scorecard.good.toString(), inline: true },
           { name: 'Bads', value: scorecard.bad.toString(), inline: true },
           { name: 'Poors', value: scorecard.poor.toString(), inline: true },
           { name: 'Combo Breaks', value: scorecard.combo.toString(), inline: true },
-          { name: 'Fasts', value: scorecard.fast.toString(), inline: false },
+          { name: 'Fasts', value: scorecard.fast.toString(), inline: true },
           { name: 'Slows', value: scorecard.slow.toString(), inline: true },
       )
       .setFooter({ text: 'Recorded on: ' + Date().toLocaleString()});
