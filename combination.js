@@ -148,7 +148,7 @@ app.post('/sendScorecardPM', function (req, res) {
   if(game == "iidx"){
     const embedCard = new MessageEmbed()
       .setTitle(scorecard.song_title + " - "+scorecard.artist)
-      .setDescription({description: "Login to view the whole score."})
+      .setDescription("Login to view the whole score.")
       .setAuthor(author)
       .addFields(
           { name: 'DJ Name', value: scorecard.username, inline: false },
