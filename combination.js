@@ -108,15 +108,7 @@ app.post('/sendScorecardPM', function (req, res) {
   game = req.header("game")
   discordid = req.header('discord_id')
   arcade = req.header('arcade')
-
-  scorecard = req.body
-  scorecard2 = req.query['game']
-
-  console.log(discordid)
-  console.log(arcade)
-  console.log(game)
-  console.log(scorecard)
-  console.log(scorecard2)
+  scorecard = req.header('scorecard')
 
   if(discordid == undefined) {
     throw 'no discord id'
@@ -128,9 +120,9 @@ app.post('/sendScorecardPM', function (req, res) {
     throw 'no game'
   }
 
-  client.users.fetch(req.query['id']).then((user) => {
+  client.users.fetch(discordid).then((user) => {
       try {
-          user.send("/tts Right, I'll tell you what, you fat little cunt. You're boring, you don't sound Nigerian at all, so go fuck yourself. Go fucking die in a dank little hole where you fucking come from.");	
+          user.send("Right, I'll tell you what, you fat little cunt. You're boring, you don't sound Nigerian at all, so go fuck yourself. Go fucking die in a dank little hole where you fucking come from.");	
       } catch (err){
           console.log("err")
       }
