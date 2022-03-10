@@ -142,11 +142,29 @@ app.post('/sendScorecardPM', function (req, res) {
     fast: 0,
     slow: 0
   }
-
   */
 
+  console.log(scorecard.game)
+  console.log(scorecard.username)
+  console.log(scorecard.song_title)
+  console.log(scorecard.artist)
+  console.log(scorecard.difficulty)
+  console.log(scorecard.target_rank)
+  console.log(scorecard.rank)
+  console.log(scorecard.target_exscore)
+  console.log(scorecard.exscore)
+  console.log(scorecard.pgreat)
+  console.log(scorecard.great)
+  console.log(scorecard.good)
+  console.log(scorecard.bad)
+  console.log(scorecard.poor)
+  console.log(scorecard.combo)
+  console.log(scorecard.fast)
+  console.log(scorecard.slow)
+
+
   if(game == "iidx"){
-    const embedCard = new MessageEmbed()
+    embedCard = new MessageEmbed()
       .setTitle(scorecard.song_title + " - "+scorecard.artist)
       .setDescription("Login to view the whole score.")
       .setAuthor(author)
@@ -155,6 +173,7 @@ app.post('/sendScorecardPM', function (req, res) {
           { name: 'Difficulty', value: scorecard.difficulty, inline: true },
           { name: 'Target EXScore', value: scorecard.target_exscore, inline: true },
           { name: 'Your EXScore', value: scorecard.exscore, inline: true },
+          { name: 'Best Status', value: scorecard.target_rank, inline: true },
           { name: 'Clear Status', value: scorecard.rank, inline: false },
           { name: 'Perfect Greats', value: scorecard.pgreat, inline: true },
           { name: 'Greats', value: scorecard.great, inline: true },
