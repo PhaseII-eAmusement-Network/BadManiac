@@ -211,11 +211,11 @@ app.post('/sendScorecardPM', function (req, res) {
       .setAuthor(author)
       .addFields(
           { name: 'Player', value: scorecard.username, inline: false },
-          { name: 'Chart', value: 'charts.chart', inline: true },
+          { name: 'Chart', value: charts[chart], inline: true },
           { name: 'Difficulty', value: scorecard.difficulty.toString(), inline: true },
           { name: 'Points', value: scorecard.points.toString(), inline: true },
-          { name: 'Medal', value: 'clearmedal.medal', inline: true },
-          { name: 'Rank', value: 'ranks.rank', inline: true },
+          { name: 'Medal', value: clearmedal[medal], inline: true },
+          { name: 'Rank', value: ranks[rank], inline: true },
           { name: 'Stats', value: "How'd ya do?", inline: false },
           { name: 'Cools', value: scorecard.cool.toString(), inline: true },
           { name: 'Greats', value: scorecard.great.toString(), inline: true },
