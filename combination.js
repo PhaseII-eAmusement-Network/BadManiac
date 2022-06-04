@@ -216,7 +216,7 @@ app.post('/sendScorecardPM', function (req, res) {
           { name: 'Points', value: scorecard.points.toString(), inline: true },
           { name: 'Medal', value: 'clearmedal.medal', inline: true },
           { name: 'Rank', value: 'ranks.rank', inline: true },
-
+          { name: 'Stats', value: "How'd ya do?", inline: false },
           { name: 'Cools', value: scorecard.cool.toString(), inline: true },
           { name: 'Greats', value: scorecard.great.toString(), inline: true },
           { name: 'Goods', value: scorecard.good.toString(), inline: true },
