@@ -166,11 +166,62 @@ app.post('/sendScorecardPM', function (req, res) {
           { name: 'Slows', value: scorecard.slow.toString(), inline: true },
       )
       .setFooter({ text: 'Recorded on: ' + Date().toLocaleString()});
-
   } else if(game == 'ddr'){
     //do ddr things
   } else if(game == 'pnm'){
-    //do popn things
+    var chart = {
+      0: 'Easy',
+      1: 'Normal',
+      2: 'Hyper',
+      3: "EX"
+    }
+
+    var clearmedal = {
+      1: '🔴 (Circle FAILED)',
+      2: '♦️ (Diamond FAILED)',
+      3: '⭐FAIL (Star FAILED)',
+      4: 'Easy CLEARED',
+      5: '🔵 (Circle CLEARED',
+      6: '🔷 (Diamond CLEARED',
+      7: '✨ (Star CLEARED)',
+      8: '🟢 (Circle FULL COMBO)',
+      9: '💎 (Diamond FULL COMBO)',
+      10: '🌟(Star FULL COMBO)',
+      11: '👌(PERFECT!)'
+    }
+
+    var ranks = {
+      1: 'E',
+      2: 'D',
+      3: 'C',
+      4: 'B',
+      5: 'A',
+      6: 'AA',
+      7: 'AAA',
+      8: 'S'
+    }
+
+    embedCard = new MessageEmbed()
+      .setTitle(scorecard.song_title + " - "+scorecard.artist)
+      .setDescription("Login to view the whole score.")
+      .setAuthor(author)
+      .addFields(
+          { name: 'Player', value: scorecard.username, inline: false },
+          { name: 'Chart', value: chart.scorecard.chart, inline: true },
+          { name: 'Difficulty', value: scorecard.difficulty.toString(), inline: true },
+          { name: 'Points', value: scorecard.points.toString(), inline: true },
+          { name: 'Medal', value: clearmedal.scorecard.clearmedal, inline: true },
+          { name: 'Rank', value: ranks.scorecard.clear_rank, inline: true },
+
+          { name: 'Cools', value: scorecard.cool.toString(), inline: true },
+          { name: 'Greats', value: scorecard.great.toString(), inline: true },
+          { name: 'Goods', value: scorecard.good.toString(), inline: true },
+          { name: 'Bads', value: scorecard.bad.toString(), inline: true },
+          { name: 'Fasts', value: scorecard.fast.toString(), inline: true },
+          { name: 'Slows', value: scorecard.slow.toString(), inline: true },
+          { name: 'Combos', value: scorecard.combo.toString(), inline: true },
+      )
+      .setFooter({ text: 'Recorded on: ' + Date().toLocaleString()});
   } else if(game == 'sdvx'){
     //do sdvx things
   }
