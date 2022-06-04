@@ -201,17 +201,21 @@ app.post('/sendScorecardPM', function (req, res) {
       8: 'S'
     }
 
+    var chart = scorecard.chart
+    var rank = scorecard.clear_rank
+    var medal = scorecard.clearmedal
+
     embedCard = new MessageEmbed()
       .setTitle(scorecard.song_title + " - "+scorecard.artist)
       .setDescription("Login to view the whole score.")
       .setAuthor(author)
       .addFields(
           { name: 'Player', value: scorecard.username, inline: false },
-          { name: 'Chart', value: chart.scorecard.chart, inline: true },
+          { name: 'Chart', value: chart.chart, inline: true },
           { name: 'Difficulty', value: scorecard.difficulty.toString(), inline: true },
           { name: 'Points', value: scorecard.points.toString(), inline: true },
-          { name: 'Medal', value: clearmedal.scorecard.clearmedal, inline: true },
-          { name: 'Rank', value: ranks.scorecard.clear_rank, inline: true },
+          { name: 'Medal', value: clearmedal.medal, inline: true },
+          { name: 'Rank', value: ranks.rank, inline: true },
 
           { name: 'Cools', value: scorecard.cool.toString(), inline: true },
           { name: 'Greats', value: scorecard.great.toString(), inline: true },
