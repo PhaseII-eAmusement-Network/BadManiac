@@ -169,7 +169,7 @@ app.post('/sendScorecardPM', function (req, res) {
   } else if(game == 'ddr'){
     //do ddr things
   } else if(game == 'pnm'){
-    var chart = {
+    var charts = {
       0: 'Easy',
       1: 'Normal',
       2: 'Hyper',
@@ -211,7 +211,7 @@ app.post('/sendScorecardPM', function (req, res) {
       .setAuthor(author)
       .addFields(
           { name: 'Player', value: scorecard.username, inline: false },
-          { name: 'Chart', value: chart.chart, inline: true },
+          { name: 'Chart', value: charts.chart, inline: true },
           { name: 'Difficulty', value: scorecard.difficulty.toString(), inline: true },
           { name: 'Points', value: scorecard.points.toString(), inline: true },
           { name: 'Medal', value: clearmedal.medal, inline: true },
