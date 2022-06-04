@@ -110,8 +110,6 @@ app.post('/sendScorecardPM', function (req, res) {
   arcade = req.header('arcade')
   scorecard = JSON.parse(req.query['scorecard'])
 
-  console.log(req.query['scorecard'])
-
   if(discordid == undefined) {
     throw 'no discord id'
   } else if(arcade == undefined) {
@@ -223,8 +221,6 @@ app.post('/sendScorecardPM', function (req, res) {
           { name: 'Greats', value: scorecard.great.toString(), inline: true },
           { name: 'Goods', value: scorecard.good.toString(), inline: true },
           { name: 'Bads', value: scorecard.bad.toString(), inline: true },
-          { name: 'Fasts', value: scorecard.fast.toString(), inline: true },
-          { name: 'Slows', value: scorecard.slow.toString(), inline: true },
           { name: 'Combos', value: scorecard.combo.toString(), inline: true },
       )
       .setFooter({ text: 'Recorded on: ' + Date().toLocaleString()});
