@@ -201,11 +201,13 @@ app.post('/sendScorecardPM', function (req, res) {
           { name: 'Rank', value: ranks[rank], inline: true },
           { name: 'Halo', value: halos[halo], inline: true },
           { name: 'Stats', value: "How'd ya do?", inline: false },
-          { name: 'Cools', value: scorecard.cool.toString(), inline: true },
-          { name: 'Greats', value: scorecard.great.toString(), inline: true },
-          { name: 'Goods', value: scorecard.good.toString(), inline: true },
-          { name: 'Bads', value: scorecard.bad.toString(), inline: true },
-          { name: 'Combos', value: scorecard.combo.toString(), inline: true },
+          { name: 'Marvelous', value: scorecard.marv.toString(), inline: true },
+          { name: 'Perfect', value: scorecard.perf.toString(), inline: true },
+          { name: 'Great', value: scorecard.great.toString(), inline: true },
+          { name: 'Good', value: scorecard.good.toString(), inline: true },
+          { name: 'Miss', value: scorecard.miss.toString(), inline: true },
+          { name: 'OK', value: scorecard.ok.toString(), inline: true },
+          { name: 'Max Combos', value: scorecard.combo.toString(), inline: true },
       )
       .setFooter({ text: 'Recorded on: ' + Date().toLocaleString()});
   } else if(game == 'pnm'){
