@@ -167,7 +167,47 @@ app.post('/sendScorecardPM', function (req, res) {
       )
       .setFooter({ text: 'Recorded on: ' + Date().toLocaleString()});
   } else if(game == 'ddr'){
-    //do ddr things
+    var ranks = {
+      0: '<:Grade_AAAM:990824397268975616>',
+      1: '<:Grade_AAA:990824396035858492>',
+      2: '<:Grade_AA:990824394957942825>',
+      3: '<:Grade_A:990824393280204840>',
+      4: '<:Grade_B:990824397944262707>',
+      5: '<:Grade_C:990824399470993428>',
+      6: '<:Grade_D:990824402201489428>',
+      7: '<:Grade_E:990824403124232223>'
+    }
+
+    var halos = {
+      0: 'No Halo!',
+      1: '<:FC:990825883155693608> (Full Combo!)',
+      2: '<:PFC:990826055222837268> (Perfect Full Combo!)',
+      3: '<:MFC:990825977418510366> (Marvelous Full Combo!)',
+      4: '<:GFC:990825927040700416> (Good Full Combo!)'
+    }
+
+    var rank = scorecard.rank
+    var halo = scorecard.halo
+
+    embedCard = new MessageEmbed()
+      .setTitle(scorecard.song_title + " - "+scorecard.artist)
+      .setDescription("Login to view the whole score.")
+      .setAuthor(author)
+      .addFields(
+          { name: 'Dancer Name', value: scorecard.username, inline: false },
+          { name: 'Chart', value: scorecard.chart, inline: true },
+          { name: 'Difficulty', value: scorecard.difficulty.toString(), inline: true },
+          { name: 'Score', value: scorecard.score.toString(), inline: true },
+          { name: 'Rank', value: ranks[rank], inline: true },
+          { name: 'Halo', value: halos[halo], inline: true },
+          { name: 'Stats', value: "How'd ya do?", inline: false },
+          { name: 'Cools', value: scorecard.cool.toString(), inline: true },
+          { name: 'Greats', value: scorecard.great.toString(), inline: true },
+          { name: 'Goods', value: scorecard.good.toString(), inline: true },
+          { name: 'Bads', value: scorecard.bad.toString(), inline: true },
+          { name: 'Combos', value: scorecard.combo.toString(), inline: true },
+      )
+      .setFooter({ text: 'Recorded on: ' + Date().toLocaleString()});
   } else if(game == 'pnm'){
     var charts = {
       0: 'Easy',
@@ -186,8 +226,8 @@ app.post('/sendScorecardPM', function (req, res) {
       7: '✨ (Star CLEARED)',
       8: '🟢 (Circle FULL COMBO)',
       9: '💎 (Diamond FULL COMBO)',
-      10: '🌟(Star FULL COMBO)',
-      11: '👌(PERFECT!)'
+      10: '🌟 (Star FULL COMBO)',
+      11: '👌 (PERFECT!)'
     }
 
     var ranks = {
