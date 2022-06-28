@@ -210,6 +210,68 @@ app.post('/sendScorecardPM', function (req, res) {
           { name: 'Max Combos', value: scorecard.combo.toString(), inline: true },
       )
       .setFooter({ text: 'Recorded on: ' + Date().toLocaleString()});
+  } else if(game == 'ddr_ark'){
+    var ranks = {
+      0: '<:Grade_AAA:990824396035858492>',
+      1: '<:Grade_AA:990824394957942825>**+**',
+      2: '<:Grade_AA:990824394957942825>',
+      3: '<:Grade_AA:990824394957942825>**-**',
+      4: '<:Grade_A:990824393280204840>**+**',
+      5: '<:Grade_A:990824393280204840>',
+      6: '<:Grade_A:990824393280204840>**-**',
+      7: '<:Grade_B:990824397944262707>**+**',
+      8: '<:Grade_B:990824397944262707>',
+      9: '<:Grade_B:990824397944262707>**-**',
+      10: '<:Grade_C:990824399470993428>**+**',
+      11: '<:Grade_C:990824399470993428>',
+      12: '<:Grade_C:990824399470993428>**-**',
+      13: '<:Grade_D:990824402201489428>**+**',
+      14: '<:Grade_D:990824402201489428>',
+      15: '<:Grade_E:990824403124232223>',
+      16: '<:Grade_AAAM:990824397268975616>',
+    }
+
+    var halos = {
+      0: 'No Halo!',
+      1: 'No Halo!',
+      2: 'No Halo!',
+      3: 'No Halo!',
+      4: 'No Halo!',
+      5: 'No Halo!',
+      6: 'No Halo!',
+      7: '<:GFC:990825927040700416> (Good Full Combo!)',
+      8: '<:FC:990825883155693608> (Full Combo!)',
+      9: '<:PFC:990826055222837268> (Perfect Full Combo!)',
+      10: '<:MFC:990825977418510366> (Marvelous Full Combo!)',
+    }
+
+    var rank = scorecard.rank
+    var halo = scorecard.halo
+
+    embedCard = new MessageEmbed()
+      .setTitle(scorecard.song_title + " - "+scorecard.artist)
+      .setDescription("Login to view the whole score.")
+      .setAuthor(author)
+      .addFields(
+          { name: 'Dancer Name', value: scorecard.username, inline: false },
+          { name: 'Chart', value: scorecard.chart, inline: true },
+          { name: 'Difficulty', value: scorecard.difficulty.toString(), inline: true },
+          { name: 'Score', value: scorecard.score.toString(), inline: true },
+          { name: 'EXScore', value: scorecard.exscore.toString(), inline: true },
+          { name: 'Rank', value: ranks[rank], inline: true },
+          { name: 'Halo', value: halos[halo], inline: true },
+          { name: 'Stats', value: "How'd ya do?", inline: false },
+          { name: 'Marvelous', value: scorecard.marv.toString(), inline: true },
+          { name: 'Perfect', value: scorecard.perf.toString(), inline: true },
+          { name: 'Great', value: scorecard.great.toString(), inline: true },
+          { name: 'Good', value: scorecard.good.toString(), inline: true },
+          { name: 'Miss', value: scorecard.miss.toString(), inline: true },
+          { name: 'OK', value: scorecard.ok.toString(), inline: true },
+          { name: 'Fast', value: scorecard.fast.toString(), inline: true },
+          { name: 'Slow', value: scorecard.slow.toString(), inline: true },
+          { name: 'Max Combos', value: scorecard.combo.toString(), inline: true },
+      )
+      .setFooter({ text: 'Recorded on: ' + Date().toLocaleString()});
   } else if(game == 'pnm'){
     var charts = {
       0: 'Easy',
