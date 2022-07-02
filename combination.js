@@ -21,6 +21,10 @@ client.on("messageCreate", msg => {
     msg.reply("pong");
   }
 
+  if (msg.content.toLowerCase() === "now who dat is?") {
+    msg.reply("My baby mama!\n https://youtu.be/6aqFYo-9L_M");
+  }
+
   if (msg.content.toLowerCase().includes('akeno')) {
     msg.reply("we stan Rias in this household thank you very much. \n" +
     "https://i.imgur.com/VpSmGlr.gif")
