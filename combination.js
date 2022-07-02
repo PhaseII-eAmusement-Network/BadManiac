@@ -25,20 +25,6 @@ client.on("messageCreate", msg => {
     msg.reply("My baby mama!\n https://youtu.be/6aqFYo-9L_M");
   }
 
-  if (msg.content.toLowerCase().includes('akeno')) {
-    msg.reply("we stan Rias in this household thank you very much. \n" +
-    "https://i.imgur.com/VpSmGlr.gif")
-  } else if (msg.content.toLowerCase().includes('rias')) {
-    msg.reply("thank you for following the rules. \n"+
-    "https://thumbs.gfycat.com/ColossalCreamyArrowworm-max-1mb.gif")
-  }
-
-  if (msg.content.slice(0, 13) == "BM! to_bottom") {
-    msg.reply(bottomify.encode(msg.content.slice(14)))
-  } else if (msg.content.slice(0, 15) == "BM! from_bottom") {
-    msg.reply(bottomify.decode(msg.content.slice(16)))
-  }
-
   // Actual bot commands now lol
   if (msg.content == 'BM! news') {
     const options = new URL('https://restfulsleep.phaseii.network/getlatestnews');
