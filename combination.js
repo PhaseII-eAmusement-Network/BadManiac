@@ -59,8 +59,8 @@ client.on("messageCreate", msg => {
     const options = new URL('https://restfulsleep.phaseii.network/v1/user/getProfile');
     let stats = false
 
-    if (msg.content.slice(12,17) != 'stats') {
-      msg.reply('stats')
+    if (msg.content.slice(12,17) == 'stats') {
+      msg.reply('ligma balls')
     }
     
     const req = https.request(options, res => {
