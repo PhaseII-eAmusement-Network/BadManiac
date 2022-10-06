@@ -57,7 +57,13 @@ client.on("messageCreate", msg => {
   }
   else if (msg.content.slice(0,11) == 'BM! profile') {
     const options = new URL('https://restfulsleep.phaseii.network/v1/user/getProfile');
+    let stats = false
+
     msg.reply(msg.content)
+
+    if (msg.content.slice(11,16) == 'stats') {
+      msg.reply('stats')
+    }
     
     const req = https.request(options, res => {
         res.on('data', d => {
