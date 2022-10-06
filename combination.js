@@ -68,6 +68,7 @@ client.on("messageCreate", msg => {
 
     let games = ['ddr', 'ddromni', 'iidx']
     for (let i = 0; i < games.length; i++) {
+      msg.reply(msg.content.slice(12, games[i].length))
       if (msg.content.slice(12, games[i].length) == games[i]) {
         game = games[i]
       }
