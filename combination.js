@@ -60,6 +60,7 @@ client.on("messageCreate", msg => {
     let stats = false
 
     msg.reply(msg.content)
+    msg.reply(msg.content.slice(11,16))
 
     if (msg.content.slice(11,16) == 'stats') {
       msg.reply('stats')
