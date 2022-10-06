@@ -54,7 +54,38 @@ client.on("messageCreate", msg => {
     })
     
     req.end()
-  } else if (msg.content == 'BM! help') {
+  }
+  else if (msg.content.slice(0,11) == 'BM! profile') {
+    const options = new URL('https://restfulsleep.phaseii.network/v1/user/getProfile');
+    msg.reply(msg.content)
+    
+    const req = https.request(options, res => {
+        res.on('data', d => {
+            var news = JSON.parse(d)
+            for (let post = 0; post < news.news.length; post++) {
+                let cleanbody = news.news[post].body.replace('<br>', "").replace('</br>', "")
+                const exampleEmbed = new MessageEmbed()
+                    .setTitle('Latest News')
+                    .setAuthor({ name: 'PhaseII eAmusement Network', iconURL: 'https://media1.giphy.com/media/3ov9jU4ycPvfrPTsly/giphy-downsized-large.gif', url: 'https://phaseii.network' })
+                    .addFields(
+                        { name: 'Title', value: news.news[post].title, inline: false },
+                        { name: 'Body', value: cleanbody, inline: true },
+                    )
+                    //.setImage('https://i.imgur.com/AfFp7pu.png')
+                    .setFooter({ text: 'Posted on: ' + news.news[post].timestamp});
+
+                    msg.reply({ embeds: [exampleEmbed] })
+            }
+        })
+    })
+    
+    req.on('status', error => {
+        console.error(error)
+    })
+      
+      req.end()
+  } 
+  else if (msg.content == 'BM! help') {
     msg.reply(
         "```"+
         "BadManiac is the bot designed for the PhaseII eAmusement Network. \n"+
