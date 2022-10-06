@@ -58,9 +58,26 @@ client.on("messageCreate", msg => {
   else if (msg.content.slice(0,11) == 'BM! profile') {
     const options = new URL('https://restfulsleep.phaseii.network/v1/user/getProfile');
     let stats = false
+    let game = undefined
+    let version = undefined
+    let userid = undefined
 
     if (msg.content.slice(12,17) == 'stats') {
-      msg.reply('ligma balls')
+      stats = true
+    }
+
+    let games = ['ddr', 'ddromni', 'iidx']
+    for (let i = 0; i < games.length; i++) {
+      if (msg.content.slice(12, games[i].length) == games[i]) {
+        game = games[i]
+      }
+      else if (msg.content.slice(18, games[i].length) == games[i]) {
+        game = games[i]
+      }
+    }
+
+    if (game == 'ddr') {
+      msg.reply('dance dance dance dance')
     }
     
     const req = https.request(options, res => {
