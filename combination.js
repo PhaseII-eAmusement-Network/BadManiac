@@ -68,17 +68,35 @@ client.on("messageCreate", msg => {
 
     let games = ['ddr', 'ddromni', 'iidx']
     for (let i = 0; i < games.length; i++) {
-      msg.reply(msg.content.slice(12, games[i].length))
-      if (msg.content.slice(12, games[i].length) == games[i]) {
+      if (msg.content.slice(12, games[i].length + 13) == games[i]) {
         game = games[i]
       }
-      else if (msg.content.slice(18, games[i].length) == games[i]) {
+      else if (msg.content.slice(18, games[i].length + 18) == games[i]) {
         game = games[i]
       }
     }
 
     if (game == 'ddr') {
-      msg.reply('dance dance dance dance')
+      let versions = [
+        {'name': 'SN2', 'version': 10},
+        {'name': 'X', 'version': 11},
+        {'name': 'X2', 'version': 12},
+        {'name': 'X3', 'version': 13},
+        {'name': '2013', 'version': 14},
+        {'name': '2014', 'version': 15},
+        {'name': 'Ace', 'version': 16},
+        {'name': 'A20', 'version': 17},
+        {'name': 'A20+', 'version': 18},
+      ]
+      for (let i = 0; i < versions.length; i++) {
+        if (msg.content.slice(12+games[i].length, versions[i]['name'].length + 13+games[i].length) == versions[i]) {
+          version = versions[i]
+        }
+        else if (msg.content.slice(18+games[i].length, versions[i]['name'].length + 18+games[i].length) == versions[i]) {
+          version = versions[i]
+        }
+      }
+      msg.reply(version.toString())
     }
     
     const req = https.request(options, res => {
