@@ -25,37 +25,7 @@ client.on("messageCreate", msg => {
     msg.reply("My baby mama!\n https://youtu.be/6aqFYo-9L_M");
   }
 
-  // Actual bot commands now lol
-  if (msg.content == 'BM! news') {
-    const options = new URL('https://restfulsleep.phaseii.network/getlatestnews');
-    
-    const req = https.request(options, res => {
-        res.on('data', d => {
-            var news = JSON.parse(d)
-            for (let post = 0; post < news.news.length; post++) {
-                let cleanbody = news.news[post].body.replace('<br>', "").replace('</br>', "")
-                const exampleEmbed = new MessageEmbed()
-                    .setTitle('Latest News')
-                    .setAuthor({ name: 'PhaseII eAmusement Network', iconURL: 'https://media1.giphy.com/media/3ov9jU4ycPvfrPTsly/giphy-downsized-large.gif', url: 'https://phaseii.network' })
-                    .addFields(
-                        { name: 'Title', value: news.news[post].title, inline: false },
-                        { name: 'Body', value: cleanbody, inline: true },
-                    )
-                    //.setImage('https://i.imgur.com/AfFp7pu.png')
-                    .setFooter({ text: 'Posted on: ' + news.news[post].timestamp});
-
-                    msg.reply({ embeds: [exampleEmbed] })
-            }
-        })
-    })
-    
-    req.on('error', error => {
-        console.error(error)
-    })
-    
-    req.end()
-  }
-  else if (msg.content.slice(0,11) == 'BM! profile') {
+  if (msg.content.slice(0,11) == 'BM! profile') {
     const options = new URL('https://restfulsleep.phaseii.network/v1/user/getProfile');
     let stats = false
     let game = undefined
@@ -125,21 +95,7 @@ client.on("messageCreate", msg => {
       
       req.end()
   } 
-  else if (msg.content == 'BM! help') {
-    msg.reply(
-        "```"+
-        "BadManiac is the bot designed for the PhaseII eAmusement Network. \n"+
-        "Used for DMing people their scorecards and other dumb shit. \n"+
-        "\n"+
-        "BadManiac commands: \n"+
-        "BM! help: Returns this help message. \n"+
-        "BM! news: Returns the latest news post. \n"+
-        "BM! to_bottom: Encodes any text after your message to bottom format. \n"+
-        "BM! from_bottom: Decodes your bottom message to string. \n"+
-        "BM!: Sends YouTube link to Bad Maniacs. \n"+
-        "```"
-    )
-  } else if (msg.content == 'BM!') {
+  else if (msg.content == 'BM!') {
     msg.reply("https://youtu.be/0WqzvPS_bDg")
   }
 })
