@@ -122,14 +122,14 @@ app.get('/sendDM', function (req, res) {
 })
 
 app.get('/sendCardInfo', function (req, res) {
-  client.users.fetch(req.header['id']).then((user) => {
-      try {
-          user.send(req.query['card']);	
-      } catch (err){
-          console.log("err")
-      }
-  })
-  res.end()
+    client.users.fetch(req.header('id')).then((user) => {
+        try {
+            user.send("A card was scanned!\n" + req.query['card']);	
+        } catch (err){
+            console.log("err")
+        }
+    })
+    res.end()
 })
 
 app.post('/sendScorecardPM', function (req, res) {
