@@ -124,7 +124,7 @@ app.get('/sendDM', function (req, res) {
 app.get('/sendCardInfo', function (req, res) {
   client.users.fetch(req.header['id']).then((user) => {
       try {
-          user.send(req.header['card']);	
+          user.send(req.query['card']);	
       } catch (err){
           console.log("err")
       }
