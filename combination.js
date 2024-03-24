@@ -121,6 +121,17 @@ app.get('/sendDM', function (req, res) {
     res.end()
 })
 
+app.get('/sendCardInfo', function (req, res) {
+  client.users.fetch(req.header['id']).then((user) => {
+      try {
+          user.send(req.header['card']);	
+      } catch (err){
+          console.log("err")
+      }
+  })
+  res.end()
+})
+
 app.post('/sendScorecardPM', function (req, res) {
   game = req.header("game")
   discordid = req.header('discord_id')
