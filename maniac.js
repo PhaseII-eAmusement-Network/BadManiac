@@ -1,22 +1,71 @@
 const express = require('express');
-const Discord = require("discord.js");
+const { Client, Events, GatewayIntentBits, Collection, ActivityType } = require("discord.js");
 const { MessageEmbed } = require('discord.js');
+const { discordToken, maniacToken } = require('./config.json');
 
 var app = express();
-const client = new Discord.Client({intents: ["GUILDS", "GUILD_MEMBERS", "GUILD_MESSAGES", "DIRECT_MESSAGES"]})
 
-client.on("ready", () => {
-    console.log(`Logged in as ${client.user.tag}!`)
-    client.user.setActivity("to die.");
-  })
+// Set up command stuff
+const fs = require('node:fs');
+const path = require('node:path');
+
+// Create a new client instance
+const client = new Client(
+	{ 
+		intents: [
+      GatewayIntentBits.Guilds,
+      GatewayIntentBits.GuildMessages,
+      GatewayIntentBits.MessageContent,
+      GatewayIntentBits.GuildMembers,
+    ],
+	});
+
+// Import commands
+client.commands = new Collection();
+
+const commandsPath = path.join(__dirname, 'commands');
+const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
+
+for (const file of commandFiles) {
+	const filePath = path.join(commandsPath, file);
+	const command = require(filePath);
+	// Set a new item in the Collection with the key as the command name and the value as the exported module
+	if ('data' in command && 'execute' in command) {
+		client.commands.set(command.data.name, command);
+	} else {
+		console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
+	}
+}
+
+client.once(Events.ClientReady, c => {
+	console.log(`Ready! Logged in as ${c.user.tag}`);
+});
+
+client.on(Events.InteractionCreate, async interaction => {
+	if (!interaction.isChatInputCommand()) return;
+
+	const command = interaction.client.commands.get(interaction.commandName);
+
+	if (!command) {
+		console.error(`No command matching ${interaction.commandName} was found.`);
+		return;
+	}
+
+	try {
+		await command.execute(interaction);
+	} catch (error) {
+		console.error(error);
+		if (interaction.replied || interaction.deferred) {
+			await interaction.followUp({ content: 'There was an error while executing this command!', ephemeral: true });
+		} else {
+			await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
+		}
+	}
+});
 
 client.on("messageCreate", msg => {
   if (msg.content.toLowerCase() == "now who dat is?") {
     msg.reply("My baby mama!\n https://youtu.be/6aqFYo-9L_M");
-  }
-
-  else if (msg.content == 'BM!') {
-    msg.reply("https://youtu.be/0WqzvPS_bDg")
   }
 })
 
@@ -266,5 +315,11 @@ app.post('/sendScorecardPM', function (req, res) {
 })
 
 app.listen(8017, function () {
-  client.login("OTI4NTUwMzY5ODU5MTA4OTA0.YdaZ6w.cj2GQ95nGK3IHX31RfnQAO0bGp4")
+  client.login(discordToken).then((discordToken) => {
+    // client.user is now defined
+    client.user.setPresence({
+      activities: [{name: 'to die.', type: ActivityType.Playing}],
+      status: 'online',
+    });
+  });
 })

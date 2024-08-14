@@ -1,29 +1,21 @@
 {
   "dependencies": {
-    "axios": "^0.26.0",
-    "bottom": "^0.1.0",
-    "bottomify": "^0.3.0",
-    "discord.js": "^13.6.0",
-    "express": "^4.17.3",
-    "node-fetch": "^3.2.0",
-    "xhr2": "^0.2.1"
+    "discord.js": "^14.15.3",
+    "express": "^4.17.3"
   },
-  "name": "badmaniac-js",
-  "description": "JS and node.js implementation of badmaniac",
-  "version": "1.0.0",
-  "main": "bot.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "name": "bad-maniac",
+  "description": "Discord bot for the PhaseII eAmusement Network",
+  "version": "2.0.0",
+  "main": "maniac.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/trmazi/BadManiac-JS.git"
+    "url": "git+https://github.com/PhaseII-eAmusement-Network/BadManiac.git"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/trmazi/BadManiac-JS/issues"
+    "url": "https://github.com/PhaseII-eAmusement-Network/BadManiac/issues"
   },
-  "homepage": "https://github.com/trmazi/BadManiac-JS#readme"
+  "homepage": "https://github.com/PhaseII-eAmusement-Network/BadManiac#readme"
 }
