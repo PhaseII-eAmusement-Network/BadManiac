@@ -1,7 +1,7 @@
 const express = require('express');
 const { Client, Events, GatewayIntentBits, Collection, ActivityType } = require("discord.js");
 const { MessageEmbed } = require('discord.js');
-const { discordToken, maniacToken } = require('./config.json');
+const { discordToken, maniacToken, port } = require('./config.json');
 
 var app = express();
 
@@ -64,7 +64,7 @@ client.on(Events.InteractionCreate, async interaction => {
 });
 
 client.on("messageCreate", msg => {
-  if (msg.content.toLowerCase() == "now who dat is?") {
+  if (msg.content.toLowerCase().includes("now who dat is")) {
     msg.reply("My baby mama!\n https://youtu.be/6aqFYo-9L_M");
   }
 })
@@ -314,7 +314,7 @@ app.post('/sendScorecardPM', function (req, res) {
   res.end()
 })
 
-app.listen(8017, function () {
+app.listen(port, function () {
   client.login(discordToken).then((discordToken) => {
     // client.user is now defined
     client.user.setPresence({
