@@ -1,2 +1,2 @@
-# BadManiac-JS
- JS and node.js implementation of badmaniac
+# BadManiac
+PhaseII eAmusement Network's Discord bot, used for Scorecards and more.

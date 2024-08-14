@@ -1,10 +1,8 @@
-const https = require('https')
-var express = require('express');
-const bottomify = require('bottomify');
+const express = require('express');
 const Discord = require("discord.js");
 const { MessageEmbed } = require('discord.js');
+
 var app = express();
-var fs = require("fs");
 const client = new Discord.Client({intents: ["GUILDS", "GUILD_MEMBERS", "GUILD_MESSAGES", "DIRECT_MESSAGES"]})
 
 client.on("ready", () => {
@@ -13,88 +11,10 @@ client.on("ready", () => {
   })
 
 client.on("messageCreate", msg => {
-  if (msg.content.includes("69") && msg.content.length <= 5) {
-    msg.reply("nice lol");
-  }
-
-  if (msg.content === "ping") {
-    msg.reply("pong");
-  }
-
-  if (msg.content.toLowerCase() === "now who dat is?") {
+  if (msg.content.toLowerCase() == "now who dat is?") {
     msg.reply("My baby mama!\n https://youtu.be/6aqFYo-9L_M");
   }
 
-  if (msg.content.slice(0,11) == 'BM! profile') {
-    const options = new URL('https://restfulsleep.phaseii.network/v1/user/getProfile');
-    let stats = false
-    let game = undefined
-    let version = undefined
-    let userid = undefined
-
-    if (msg.content.slice(12,17) == 'stats') {
-      stats = true
-    }
-
-    let games = ['ddr', 'ddromni', 'iidx']
-    for (let i = 0; i < games.length; i++) {
-      if (msg.content.slice(12, games[i].length + 13) == games[i]) {
-        game = games[i]
-      }
-      else if (msg.content.slice(18, games[i].length + 18) == games[i]) {
-        game = games[i]
-      }
-    }
-
-    if (game == 'ddr') {
-      let versions = [
-        {'name': 'SN2', 'version': 10},
-        {'name': 'X', 'version': 11},
-        {'name': 'X2', 'version': 12},
-        {'name': 'X3', 'version': 13},
-        {'name': '2013', 'version': 14},
-        {'name': '2014', 'version': 15},
-        {'name': 'Ace', 'version': 16},
-        {'name': 'A20', 'version': 17},
-        {'name': 'A20+', 'version': 18},
-      ]
-      for (let i = 0; i < versions.length; i++) {
-        if (msg.content.slice(12+games[i].length, versions[i]['name'].length + 13+games[i].length) == versions[i]) {
-          version = versions[i]
-        }
-        else if (msg.content.slice(18+games[i].length, versions[i]['name'].length + 18+games[i].length) == versions[i]) {
-          version = versions[i]
-        }
-      }
-      msg.reply(version.toString())
-    }
-    
-    const req = https.request(options, res => {
-        res.on('data', d => {
-            var news = JSON.parse(d)
-            for (let post = 0; post < news.news.length; post++) {
-                let cleanbody = news.news[post].body.replace('<br>', "").replace('</br>', "")
-                const exampleEmbed = new MessageEmbed()
-                    .setTitle('Latest News')
-                    .setAuthor({ name: 'PhaseII eAmusement Network', iconURL: 'https://media1.giphy.com/media/3ov9jU4ycPvfrPTsly/giphy-downsized-large.gif', url: 'https://phaseii.network' })
-                    .addFields(
-                        { name: 'Title', value: news.news[post].title, inline: false },
-                        { name: 'Body', value: cleanbody, inline: true },
-                    )
-                    //.setImage('https://i.imgur.com/AfFp7pu.png')
-                    .setFooter({ text: 'Posted on: ' + news.news[post].timestamp});
-
-                    msg.reply({ embeds: [exampleEmbed] })
-            }
-        })
-    })
-    
-    req.on('status', error => {
-        console.error(error)
-    })
-      
-      req.end()
-  } 
   else if (msg.content == 'BM!') {
     msg.reply("https://youtu.be/0WqzvPS_bDg")
   }
@@ -102,79 +22,55 @@ client.on("messageCreate", msg => {
 
 client.on('guildMemberAdd', (member) => {
     const channel = member.guild.channels.cache.get("798960457733898281");
-    let welcome = (
-        "Welcome to `PhaseII`, " + `<@!${member.id}>` + "! \n"+
-        "Please read <#798960393761325087> and <#813147987759988756>, \n"+
-        "and come here when done! <:phaseii:845485429587050496>"
-    )
-    channel.send(welcome)
-})
-
-app.get('/sendDM', function (req, res) {
-    client.users.fetch(req.query['id']).then((user) => {
-        try {
-            user.send("/tts Right, I'll tell you what, you fat little cunt. You're boring, you don't sound Nigerian at all, so go fuck yourself. Go fucking die in a dank little hole where you fucking come from.");	
-        } catch (err){
-            console.log("err")
-        }
-    })
-    res.end()
+    channel.send((
+      `Welcome to ${'`PhaseII`'} <:phaseii:845485429587050496>, <@!${member.id}>!\n`+
+      "Please read <#798960393761325087> and <#813147987759988756>,\n"+
+      "and come here when done!"
+    ))
 })
 
 app.get('/sendCardInfo', function (req, res) {
     client.users.fetch(req.header('id')).then((user) => {
         try {
-            user.send("A card was scanned!\n" + req.query['card']);	
+            user.send(`A card was scanned!\n ${req.query['card']}`);	
         } catch (err){
-            console.log("err")
+            console.log(err)
         }
     })
     res.end()
 })
 
 app.post('/sendScorecardPM', function (req, res) {
-  game = req.header("game")
-  discordid = req.header('discord_id')
-  arcade = req.header('arcade')
-  scorecard = JSON.parse(req.query['scorecard'])
+  const game = req.header("game")
+  const discord_id = req.header('discord_id')
+  const arcade = req.header('arcade')
+  var scorecard = JSON.parse(req.query['scorecard'])
 
-  if(discordid == undefined) {
+  if(discord_id == undefined) {
     throw 'no discord id'
-  } else if(arcade == undefined) {
+  }
+
+  if(arcade == undefined) {
     throw 'no arcade'
-  } else if(scorecard == undefined) {
+  }
+
+  if(scorecard == undefined) {
     throw 'no scorecard'
-  } else if(game == undefined) {
+  }
+
+  if(game == undefined) {
     throw 'no game'
   }
 
-  author = { name: 'PhaseII eAmusement Network', iconURL: 'https://media1.giphy.com/media/3ov9jU4ycPvfrPTsly/giphy-downsized-large.gif', url: 'https://phaseii.network' }
-
-  /*
-  {
-    game: 'Beatmania IIDX PENDUAL',
-    username: 'TRMAZI',
-    song_title: 'Bad Maniacs',
-    artist: 'kors k as teranoid',
-    difficulty: 7,
-    target_rank: 'NO PLAY',
-    rank: 'FAILED',
-    target_exscore: 890,
-    exscore: 0,
-    pgreat: 0,
-    great: 0,
-    good: 0,
-    bad: 0,
-    poor: 50,
-    combo: 50,
-    fast: 0,
-    slow: 0
+  const author = {
+    name: 'PhaseII eAmusement Network',
+    iconURL: 'https://phaseii.network/static/favicon.png',
+    url: 'https://phaseii.network'
   }
-  */
 
   if(game == "iidx"){
-    embedCard = new MessageEmbed()
-      .setTitle(scorecard.song_title + " - "+scorecard.artist)
+    var embedCard = new MessageEmbed()
+      .setTitle(`${scorecard.song_title} - ${scorecard.artist}`)
       .setDescription("Login to view the whole score.")
       .setAuthor(author)
       .addFields(
@@ -193,9 +89,9 @@ app.post('/sendScorecardPM', function (req, res) {
           { name: 'Fasts', value: scorecard.fast.toString(), inline: true },
           { name: 'Slows', value: scorecard.slow.toString(), inline: true },
       )
-      .setFooter({ text: 'Recorded on: ' + Date().toLocaleString()});
+      .setFooter({ text: `Recorded on: ${Date().toLocaleString()}`});
   } else if(game == 'ddr'){
-    var ranks = {
+    const ranks = {
       0: '<:Grade_AAAM:990824397268975616>',
       1: '<:Grade_AAA:990824396035858492>',
       2: '<:Grade_AA:990824394957942825>',
@@ -206,7 +102,7 @@ app.post('/sendScorecardPM', function (req, res) {
       7: '<:Grade_E:990824403124232223>'
     }
 
-    var halos = {
+    const halos = {
       0: 'No Halo!',
       1: '<:FC:990825883155693608> (Full Combo!)',
       2: '<:PFC:990826055222837268> (Perfect Full Combo!)',
@@ -214,11 +110,11 @@ app.post('/sendScorecardPM', function (req, res) {
       4: '<:GFC:990825927040700416> (Good Full Combo!)'
     }
 
-    var rank = scorecard.rank
-    var halo = scorecard.halo
+    const rank = scorecard.rank
+    const halo = scorecard.halo
 
-    embedCard = new MessageEmbed()
-      .setTitle(scorecard.song_title + " - "+scorecard.artist)
+    var embedCard = new MessageEmbed()
+      .setTitle(`${scorecard.song_title} - ${scorecard.artist}`)
       .setDescription("Login to view the whole score.")
       .setAuthor(author)
       .addFields(
@@ -237,9 +133,9 @@ app.post('/sendScorecardPM', function (req, res) {
           { name: 'OK', value: scorecard.ok.toString(), inline: true },
           { name: 'Max Combos', value: scorecard.combo.toString(), inline: true },
       )
-      .setFooter({ text: 'Recorded on: ' + Date().toLocaleString()});
+      .setFooter({ text: `Recorded on: ${Date().toLocaleString()}`});
   } else if(game == 'ddr_ark'){
-    var ranks = {
+    const ranks = {
       0: '<:Grade_AAA:990824396035858492>',
       1: '<:Grade_AA:990824394957942825>**+**',
       2: '<:Grade_AA:990824394957942825>',
@@ -259,7 +155,7 @@ app.post('/sendScorecardPM', function (req, res) {
       16: '<:Grade_AAAM:990824397268975616>',
     }
 
-    var halos = {
+    const halos = {
       0: 'No Halo!',
       1: 'No Halo!',
       2: 'No Halo!',
@@ -273,11 +169,11 @@ app.post('/sendScorecardPM', function (req, res) {
       10: '<:MFC:990825977418510366> (Marvelous Full Combo!)',
     }
 
-    var rank = scorecard.rank
-    var halo = scorecard.halo
+    const rank = scorecard.rank
+    const halo = scorecard.halo
 
-    embedCard = new MessageEmbed()
-      .setTitle(scorecard.song_title + " - "+scorecard.artist)
+    var embedCard = new MessageEmbed()
+      .setTitle(`${scorecard.song_title} - ${scorecard.artist}`)
       .setDescription("Login to view the whole score.")
       .setAuthor(author)
       .addFields(
@@ -299,16 +195,16 @@ app.post('/sendScorecardPM', function (req, res) {
           { name: 'Slow', value: scorecard.slow.toString(), inline: true },
           { name: 'Max Combos', value: scorecard.combo.toString(), inline: true },
       )
-      .setFooter({ text: 'Recorded on: ' + Date().toLocaleString()});
+      .setFooter({ text: `Recorded on: ${Date().toLocaleString()}`});
   } else if(game == 'pnm'){
-    var charts = {
+    const charts = {
       0: 'Easy',
       1: 'Normal',
       2: 'Hyper',
       3: "EX"
     }
 
-    var clearmedal = {
+    const clearmedal = {
       1: '🔴 (Circle FAILED)',
       2: '♦️ (Diamond FAILED)',
       3: '⭐FAIL (Star FAILED)',
@@ -322,7 +218,7 @@ app.post('/sendScorecardPM', function (req, res) {
       11: '👌 (PERFECT!)'
     }
 
-    var ranks = {
+    const ranks = {
       1: 'E',
       2: 'D',
       3: 'C',
@@ -333,12 +229,12 @@ app.post('/sendScorecardPM', function (req, res) {
       8: 'S'
     }
 
-    var chart = scorecard.chart
-    var rank = scorecard.clear_rank
-    var medal = scorecard.clearmedal
+    const chart = scorecard.chart
+    const rank = scorecard.clear_rank
+    const medal = scorecard.clearmedal
 
-    embedCard = new MessageEmbed()
-      .setTitle(scorecard.song_title + " - "+scorecard.artist)
+    var embedCard = new MessageEmbed()
+      .setTitle(`${scorecard.song_title} - ${scorecard.artist}`)
       .setDescription("Login to view the whole score.")
       .setAuthor(author)
       .addFields(
@@ -355,25 +251,20 @@ app.post('/sendScorecardPM', function (req, res) {
           { name: 'Bads', value: scorecard.bad.toString(), inline: true },
           { name: 'Combos', value: scorecard.combo.toString(), inline: true },
       )
-      .setFooter({ text: 'Recorded on: ' + Date().toLocaleString()});
-  } else if(game == 'sdvx'){
-    //do sdvx things
+      .setFooter({ text: `Recorded on: ${Date().toLocaleString()}`});
   }
 
-  client.users.fetch(discordid).then((user) => {
+  client.users.fetch(discord_id).then((user) => {
       try {
-          user.send('From your game of '+scorecard.game+' at '+arcade);
+          user.send(`From your game of ${scorecard.game} at ${arcade}`);
           user.send({ embeds: [embedCard] });	
       } catch (err){
-          console.log("err")
+          console.log(err)
       }
   })
   res.end()
 })
 
-var server = app.listen(8017, function () {
-   var host = server.address().address
-   var port = server.address().port
-   console.log("Example app listening at http://%s:%s", host, port)
-   client.login("OTI4NTUwMzY5ODU5MTA4OTA0.YdaZ6w.cj2GQ95nGK3IHX31RfnQAO0bGp4")
+app.listen(8017, function () {
+  client.login("OTI4NTUwMzY5ODU5MTA4OTA0.YdaZ6w.cj2GQ95nGK3IHX31RfnQAO0bGp4")
 })
