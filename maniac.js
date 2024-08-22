@@ -1,6 +1,6 @@
 const express = require('express');
 const { Client, Events, GatewayIntentBits, Collection, ActivityType } = require("discord.js");
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const { discordToken, maniacToken, port } = require('./config.json');
 
 var app = express();
@@ -118,7 +118,7 @@ app.post('/sendScorecardPM', function (req, res) {
   }
 
   if(game == "iidx"){
-    var embedCard = new MessageEmbed()
+    var embedCard = new EmbedBuilder()
       .setTitle(`${scorecard.song_title} - ${scorecard.artist}`)
       .setDescription("Login to view the whole score.")
       .setAuthor(author)
@@ -162,7 +162,7 @@ app.post('/sendScorecardPM', function (req, res) {
     const rank = scorecard.rank
     const halo = scorecard.halo
 
-    var embedCard = new MessageEmbed()
+    var embedCard = new EmbedBuilder()
       .setTitle(`${scorecard.song_title} - ${scorecard.artist}`)
       .setDescription("Login to view the whole score.")
       .setAuthor(author)
@@ -221,7 +221,7 @@ app.post('/sendScorecardPM', function (req, res) {
     const rank = scorecard.rank
     const halo = scorecard.halo
 
-    var embedCard = new MessageEmbed()
+    var embedCard = new EmbedBuilder()
       .setTitle(`${scorecard.song_title} - ${scorecard.artist}`)
       .setDescription("Login to view the whole score.")
       .setAuthor(author)
@@ -282,7 +282,7 @@ app.post('/sendScorecardPM', function (req, res) {
     const rank = scorecard.clear_rank
     const medal = scorecard.clearmedal
 
-    var embedCard = new MessageEmbed()
+    var embedCard = new EmbedBuilder()
       .setTitle(`${scorecard.song_title} - ${scorecard.artist}`)
       .setDescription("Login to view the whole score.")
       .setAuthor(author)
