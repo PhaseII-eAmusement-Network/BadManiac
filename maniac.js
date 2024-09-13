@@ -2,7 +2,7 @@ const express = require('express');
 const multer = require('multer');
 const { Client, Events, GatewayIntentBits, Collection, ActivityType } = require("discord.js");
 const { EmbedBuilder } = require('discord.js');
-const { discordToken, maniacToken, port } = require('./config.json');
+const { discordToken, maniacToken, uploadPath, port } = require('./config.json');
 
 const author = {
   name: 'PhaseII eAmusement Network',
@@ -13,7 +13,7 @@ const author = {
 var app = express();
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads/'); // Specify the destination folder
+    cb(null, uploadPath); // Specify the destination folder
   },
   filename: (req, file, cb) => {
     cb(null, file.originalname); // Use the original file name
@@ -209,11 +209,11 @@ app.post('/sendVPNProfile/:id', upload.single('vpnFile'), async (req, res) => {
             "## OpenVPN Profile\n"+
             "Use OpenVPN Community or a GL.iNet Router to connect.\n"
           ),
-          files: [path.join(__dirname, 'uploads', file.originalname)]
+          files: [path.join(__dirname, uploadPath, file.originalname)]
         });
 
         // Remove the file after sending
-        fs.unlinkSync(path.join(__dirname, 'uploads', file.originalname));
+        fs.unlinkSync(path.join(__dirname, uploadPath, file.originalname));
 
         res.status(200).send('VPN profile sent successfully.');
       } else {

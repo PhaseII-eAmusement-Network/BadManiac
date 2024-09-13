@@ -3,5 +3,6 @@
     "guildId": "",
     "discordToken": "",
     "maniacToken": "",
+    "uploadPath": "uploads/",
     "port": 1656
 }
