@@ -1,9 +1,27 @@
 const express = require('express');
+const multer = require('multer');
 const { Client, Events, GatewayIntentBits, Collection, ActivityType } = require("discord.js");
 const { EmbedBuilder } = require('discord.js');
 const { discordToken, maniacToken, port } = require('./config.json');
 
+const author = {
+  name: 'PhaseII eAmusement Network',
+  iconURL: 'https://phaseii.network/static/favicon.png',
+  url: 'https://phaseii.network'
+}
+
 var app = express();
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/'); // Specify the destination folder
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.originalname); // Use the original file name
+  }
+});
+
+const upload = multer({ storage: storage });
+app.use(express.json());
 
 // Set up command stuff
 const fs = require('node:fs');
@@ -78,6 +96,138 @@ client.on('guildMemberAdd', (member) => {
     ))
 })
 
+app.get('/member/:id', async (req, res) => {
+  const userId = req.params.id;
+
+  try {
+    const user = await client.users.fetch(userId);
+
+    if (user) {
+      res.json({
+        username: user.username,
+        displayName: user.displayName,
+        avatar: user.displayAvatarURL({ dynamic: true, size: 1024 }),
+      });
+    } else {
+      res.status(404).send('User not found');
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error fetching user');
+  }
+});
+
+app.post('/onboardArcade', (req, res) => {
+  const requestData = req.body
+  const arcadeData = requestData.arcade
+
+  if (arcadeData === undefined) {
+    res.end()
+    throw new Error('No arcade data')
+  }
+
+  const arcadeSettings = [
+    ["paseli", "PASELI"],
+    ["infinitePaseli", "Infinite PASELI"],
+    ["maintenance", "Maintenance Mode"],
+    ["betas", "Betas"]
+  ];
+
+  const machineSettings = [
+    ["cabinet", "Cabinet Mode"],
+    ["ota", "OTA Updates"],
+  ];
+
+  var onboardingMessage = [
+      `## ${arcadeData.name}`,
+      `*${arcadeData.description}*`,
+      "```"
+  ];
+  for (const [key, label] of arcadeSettings) {
+      onboardingMessage.push(
+          arcadeData[key] ? 
+          `✅ ${label} Enabled` : 
+          `❌ ${label} Disabled`
+      );
+  }
+  onboardingMessage.push(
+    (
+      "```\n" +
+      "## Machine List"
+    )
+  )
+
+  for (machine of arcadeData.machineList) {
+    onboardingMessage.push((
+      `### ${machine.name}\n`+
+      "``" + machine.PCBID + "``\n"+
+      "```"
+    ))
+
+    for (const [key, label] of machineSettings) {
+      onboardingMessage.push(
+          machine[key] ? 
+          `✅ ${label} Enabled` : 
+          `❌ ${label} Disabled`
+      );
+    }
+    onboardingMessage.push("```")
+  }
+
+  onboardingMessage.push((
+    "## Need Help?\n"+
+    "Please refer to https://discord.com/channels/798959764394344449/813147987759988756\n"+
+    "You can always ask for help here --> https://discord.com/channels/798959764394344449/908224208130166805\n"+
+    "If you need to make an adjustment to your arcade, please contact a Community Manger or a SysOp. Thanks!"
+  ))
+
+
+  client.users.fetch(requestData.discordId).then((user) => {
+    try {
+        user.send("Welcome to your new arcade!");
+        user.send(onboardingMessage.join('\n'));
+    } catch (err){
+        console.log(err)
+    }
+  })
+  res.end()
+});
+
+app.post('/sendVPNProfile/:id', upload.single('vpnFile'), async (req, res) => {
+  const userId = req.params.id;
+
+  try {
+    const user = await client.users.fetch(userId);
+
+    if (user) {
+      const file = req.file;
+
+      if (file) {
+        // Send the file to the user
+        await user.send({
+          content: (
+            "## OpenVPN Profile\n"+
+            "Use OpenVPN Community or a GL.iNet Router to connect.\n"
+          ),
+          files: [path.join(__dirname, 'uploads', file.originalname)]
+        });
+
+        // Remove the file after sending
+        fs.unlinkSync(path.join(__dirname, 'uploads', file.originalname));
+
+        res.status(200).send('VPN profile sent successfully.');
+      } else {
+        res.status(400).send('No file uploaded.');
+      }
+    } else {
+      res.status(404).send('User not found.');
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error sending VPN profile.');
+  }
+});
+
 app.get('/sendCardInfo', function (req, res) {
     client.users.fetch(req.header('id')).then((user) => {
         try {
@@ -109,12 +259,6 @@ app.post('/sendScorecardPM', function (req, res) {
 
   if(game == undefined) {
     throw 'no game'
-  }
-
-  const author = {
-    name: 'PhaseII eAmusement Network',
-    iconURL: 'https://phaseii.network/static/favicon.png',
-    url: 'https://phaseii.network'
   }
 
   if(game == "iidx"){
@@ -314,12 +458,13 @@ app.post('/sendScorecardPM', function (req, res) {
   res.end()
 })
 
-app.listen(port, function () {
-  client.login(discordToken).then((discordToken) => {
-    // client.user is now defined
-    client.user.setPresence({
-      activities: [{name: 'to die.', type: ActivityType.Playing}],
-      status: 'online',
-    });
+client.login(discordToken).then(() => {
+  client.user.setPresence({
+    activities: [{name: 'to die.', type: ActivityType.Playing}],
+    status: 'online',
   });
-})
+
+  app.listen(port, () => {
+    console.log(`Server is listening on port ${port}`);
+  });
+});

@@ -1,7 +1,8 @@
 {
   "dependencies": {
     "discord.js": "^14.15.3",
-    "express": "^4.19.2"
+    "express": "^4.19.2",
+    "multer": "^1.4.5-lts.1"
   },
   "name": "bad-maniac",
   "description": "Discord bot for the PhaseII eAmusement Network",
