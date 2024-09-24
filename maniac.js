@@ -208,10 +208,10 @@ app.post('/sendVPNProfile/:id', upload.single('vpnFile'), async (req, res) => {
         await user.send({
           content: (
             "## OpenVPN Profile\n"+
-            "Use OpenVPN Community or a GL.iNet Router to connect.\n\n"+
+            "Use OpenVPN Community or a GL.iNet Router to connect.\n"+
             "## Server URLs\n"+
             "Service URL: `http://xrpc.phaseii.network`\n"+
-            "WebUI URL: https://phaseii.network\n\n"+
+            "WebUI URL: https://phaseii.network\n"+
             "### DNS not working?\n"+
             "The direct server IP is `10.5.7.3`"
           ),
