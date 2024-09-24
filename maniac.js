@@ -130,7 +130,8 @@ app.post('/onboardArcade', (req, res) => {
     ["paseli", "PASELI"],
     ["infinitePaseli", "Infinite PASELI"],
     ["maintenance", "Maintenance Mode"],
-    ["betas", "Betas"]
+    ["betas", "Betas"],
+    ["incognito", "Incognito Mode"],
   ];
 
   const machineSettings = [
@@ -237,6 +238,22 @@ app.get('/sendCardInfo', function (req, res) {
         }
     })
     res.end()
+})
+
+app.get('/sendBadHex', function (req, res) {
+  client.users.fetch(req.header('id')).then((user) => {
+      try {
+          user.send((
+            "# Warning!\n" +
+            "Your `" + req.query['dll'] + "` is configured improperly.\n\n" +
+            "You need to used the updated Premium Free hex edits or disable the Premium Free hex edit for scores to properly save.\n" +
+            "Thank you."
+          ));	
+      } catch (err){
+          console.log(err)
+      }
+  })
+  res.end()
 })
 
 app.post('/sendScorecardPM', function (req, res) {
