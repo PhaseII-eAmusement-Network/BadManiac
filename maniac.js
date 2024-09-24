@@ -179,7 +179,7 @@ app.post('/onboardArcade', (req, res) => {
     "## Need Help?\n"+
     "Please refer to https://discord.com/channels/798959764394344449/813147987759988756\n"+
     "You can always ask for help here --> https://discord.com/channels/798959764394344449/908224208130166805\n"+
-    "If you need to make an adjustment to your arcade, please contact a Community Manger or a SysOp. Thanks!"
+    "If you need to make an adjustment to your arcade, please contact a Community Manager or a SysOp. Thanks!"
   ))
 
 
@@ -208,7 +208,12 @@ app.post('/sendVPNProfile/:id', upload.single('vpnFile'), async (req, res) => {
         await user.send({
           content: (
             "## OpenVPN Profile\n"+
-            "Use OpenVPN Community or a GL.iNet Router to connect.\n"
+            "Use OpenVPN Community or a GL.iNet Router to connect.\n\n"+
+            "## Server URLs\n"+
+            "Service URL: `http://xrpc.phaseii.network`\n"+
+            "WebUI URL: https://phaseii.network\n\n"+
+            "### DNS not working?\n"+
+            "The direct server IP is `10.5.7.3`"
           ),
           files: [path.join(__dirname, uploadPath, file.originalname)]
         });
@@ -246,7 +251,7 @@ app.get('/sendBadHex', function (req, res) {
           user.send((
             "# Warning!\n" +
             "Your `" + req.query['dll'] + "` is configured improperly.\n\n" +
-            "You need to used the updated Premium Free hex edits or disable the Premium Free hex edit for scores to properly save.\n" +
+            "You need to use the updated Premium Free hex edits or disable the Premium Free hex edit for scores to properly save.\n" +
             "Thank you."
           ));	
       } catch (err){
