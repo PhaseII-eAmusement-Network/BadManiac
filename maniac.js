@@ -176,6 +176,11 @@ app.post('/onboardArcade', (req, res) => {
   }
 
   onboardingMessage.push((
+    "## Server URLs\n"+
+    "Service URL: `http://xrpc.phaseii.network`\n"+
+    "WebUI URL: https://phaseii.network\n"+
+    "### DNS not working?\n"+
+    "The direct server IP is `10.5.7.3`"+
     "## Need Help?\n"+
     "Please refer to https://discord.com/channels/798959764394344449/813147987759988756\n"+
     "You can always ask for help here --> https://discord.com/channels/798959764394344449/908224208130166805\n"+
@@ -208,12 +213,7 @@ app.post('/sendVPNProfile/:id', upload.single('vpnFile'), async (req, res) => {
         await user.send({
           content: (
             "## OpenVPN Profile\n"+
-            "Use OpenVPN Community or a GL.iNet Router to connect.\n"+
-            "## Server URLs\n"+
-            "Service URL: `http://xrpc.phaseii.network`\n"+
-            "WebUI URL: https://phaseii.network\n"+
-            "### DNS not working?\n"+
-            "The direct server IP is `10.5.7.3`"
+            "Use OpenVPN Community or a GL.iNet Router to connect.\n"
           ),
           files: [path.join(__dirname, uploadPath, file.originalname)]
         });
