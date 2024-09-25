@@ -180,7 +180,7 @@ app.post('/onboardArcade', (req, res) => {
     "Service URL: `http://xrpc.phaseii.network`\n"+
     "WebUI URL: https://phaseii.network\n"+
     "### DNS not working?\n"+
-    "The direct server IP is `10.5.7.3`"+
+    "The direct server IP is `10.5.7.3`\n"+
     "## Need Help?\n"+
     "Please refer to https://discord.com/channels/798959764394344449/813147987759988756\n"+
     "You can always ask for help here --> https://discord.com/channels/798959764394344449/908224208130166805\n"+
