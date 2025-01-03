@@ -199,6 +199,25 @@ app.post('/onboardArcade', (req, res) => {
   res.end()
 });
 
+app.post('/uploadComplete', (req, res) => {
+  const requestData = req.body
+  const videoData = requestData.video
+
+  if (videoData === undefined) {
+    res.end()
+    throw new Error('No video data')
+  }
+
+  client.users.fetch(requestData.discordId).then((user) => {
+    try {
+        user.send(`Your latest play video has finished uploading!\n${videoData.url}`);
+    } catch (err){
+        console.log(err)
+    }
+  })
+  res.end()
+});
+
 app.post('/sendVPNProfile/:id', upload.single('vpnFile'), async (req, res) => {
   const userId = req.params.id;
 
