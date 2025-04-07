@@ -17,6 +17,7 @@ import {
 	buildDDREmbed,
 	buildPNMEmbed,
 } from "./helpers/builder.js";
+import { handleReaction } from "./helpers/reaction.js";
 import JSONConfig from "./config.json" with { type: "json" };
 import { Database } from "./db/index.js";
 
@@ -37,36 +38,36 @@ const upload = multer({ storage: storage });
 app.use(express.json());
 
 const authenticateAPIKey = async (req, res, next) => {
-    const apiKey = req.header('X-API-Key');
-    
-    if (!apiKey) {
-        return res.status(401).json({ 
-            error: 'Unauthorized',
-            message: 'API key is required in X-API-Key header' 
-        });
-    }
+	const apiKey = req.header("X-API-Key");
 
-    try {
-        const db = await Database.data;
-        const validKey = db.keys.find(keyObj => keyObj.key === apiKey);
-        
-        if (!validKey) {
-            return res.status(403).json({ 
-                error: 'Forbidden',
-                message: 'Invalid API key' 
-            });
-        }
-        
-        // Optionally attach the member info to the request
-        req.authenticatedMember = validKey.member;
-        next();
-    } catch (error) {
-        console.error('Error validating API key:', error);
-        res.status(500).json({ 
-            error: 'Server Error',
-            message: 'Error validating API key' 
-        });
-    }
+	if (!apiKey) {
+		return res.status(401).json({
+			error: "Unauthorized",
+			message: "API key is required in X-API-Key header",
+		});
+	}
+
+	try {
+		const db = Database.data;
+		const validKey = db.keys.find((keyObj) => keyObj.key === apiKey);
+
+		if (!validKey) {
+			return res.status(403).json({
+				error: "Forbidden",
+				message: "Invalid API key",
+			});
+		}
+
+		// Optionally attach the member info to the request
+		req.authenticatedMember = validKey.member;
+		next();
+	} catch (error) {
+		console.error("Error validating API key:", error);
+		res.status(500).json({
+			error: "Server Error",
+			message: "Error validating API key",
+		});
+	}
 };
 app.use(authenticateAPIKey);
 
@@ -77,6 +78,7 @@ const client = new Client({
 		GatewayIntentBits.GuildMessages,
 		GatewayIntentBits.MessageContent,
 		GatewayIntentBits.GuildMembers,
+		GatewayIntentBits.GuildMessageReactions,
 	],
 });
 
@@ -149,6 +151,57 @@ client.on("guildMemberAdd", (member) => {
 			"Please read <#798960393761325087> and <#813147987759988756>,\n" +
 			"and come here when done!",
 	);
+});
+
+client.on(Events.MessageReactionAdd, async (reaction, user) => {
+	if (reaction.partial) {
+		try {
+			await reaction.fetch();
+		} catch (error) {
+			console.error("Failed to fetch reaction:", error);
+			return;
+		}
+	}
+	await handleReaction(reaction, user, true);
+});
+
+client.on(Events.MessageReactionRemove, async (reaction, user) => {
+	if (reaction.partial) {
+		try {
+			await reaction.fetch();
+		} catch (error) {
+			console.error("Failed to fetch reaction:", error);
+			return;
+		}
+	}
+	await handleReaction(reaction, user, false);
+});
+
+client.on(Events.Raw, async (packet) => {
+	if (!["MESSAGE_REACTION_ADD", "MESSAGE_REACTION_REMOVE"].includes(packet.t))
+		return;
+
+	const channel = client.channels.cache.get(packet.d.channel_id);
+	if (!channel || channel.type !== 0) return;
+	if (channel.messages.cache.has(packet.d.message_id)) return;
+
+	const user = await client.users.fetch(packet.d.user_id);
+	if (user.bot) return;
+
+	const message = await channel.messages.fetch(packet.d.message_id);
+	const reaction = {
+		message: message,
+		emoji: {
+			id: packet.d.emoji.id,
+			name: packet.d.emoji.name,
+		},
+	};
+
+	if (packet.t === "MESSAGE_REACTION_ADD") {
+		await handleReaction(reaction, user, true);
+	} else if (packet.t === "MESSAGE_REACTION_REMOVE") {
+		await handleReaction(reaction, user, false);
+	}
 });
 
 app.get("/member/:id", async (req, res) => {
