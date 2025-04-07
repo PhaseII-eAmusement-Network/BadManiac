@@ -17,8 +17,8 @@ import {
 	buildDDREmbed,
 	buildPNMEmbed,
 } from "./helpers/builder.js";
-
 import JSONConfig from "./config.json" with { type: "json" };
+import { Database } from "./db/index.js";
 
 var app = express();
 const storage = multer.diskStorage({
@@ -35,6 +35,40 @@ const __dirname = dirname(__filename);
 
 const upload = multer({ storage: storage });
 app.use(express.json());
+
+const authenticateAPIKey = async (req, res, next) => {
+    const apiKey = req.header('X-API-Key');
+    
+    if (!apiKey) {
+        return res.status(401).json({ 
+            error: 'Unauthorized',
+            message: 'API key is required in X-API-Key header' 
+        });
+    }
+
+    try {
+        const db = await Database.data;
+        const validKey = db.keys.find(keyObj => keyObj.key === apiKey);
+        
+        if (!validKey) {
+            return res.status(403).json({ 
+                error: 'Forbidden',
+                message: 'Invalid API key' 
+            });
+        }
+        
+        // Optionally attach the member info to the request
+        req.authenticatedMember = validKey.member;
+        next();
+    } catch (error) {
+        console.error('Error validating API key:', error);
+        res.status(500).json({ 
+            error: 'Server Error',
+            message: 'Error validating API key' 
+        });
+    }
+};
+app.use(authenticateAPIKey);
 
 // Create a new client instance
 const client = new Client({
