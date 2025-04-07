@@ -1,22 +1,29 @@
 {
-  "dependencies": {
-    "discord.js": "^14.15.3",
-    "express": "^4.19.2",
-    "multer": "^1.4.5-lts.1"
-  },
-  "name": "bad-maniac",
-  "description": "Discord bot for the PhaseII eAmusement Network",
-  "version": "2.0.0",
-  "main": "maniac.js",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/PhaseII-eAmusement-Network/BadManiac.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/PhaseII-eAmusement-Network/BadManiac/issues"
-  },
-  "homepage": "https://github.com/PhaseII-eAmusement-Network/BadManiac#readme"
+	"dependencies": {
+		"discord.js": "^14.15.3",
+		"express": "^4.19.2",
+		"multer": "^1.4.5-lts.1"
+	},
+	"name": "bad-maniac",
+	"type": "module",
+	"description": "Discord bot for the PhaseII eAmusement Network",
+	"version": "2.0.0",
+	"main": "maniac.js",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/PhaseII-eAmusement-Network/BadManiac.git"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/PhaseII-eAmusement-Network/BadManiac/issues"
+	},
+	"homepage": "https://github.com/PhaseII-eAmusement-Network/BadManiac#readme",
+	"devDependencies": {
+		"@eslint/js": "^9.24.0",
+		"eslint": "^9.24.0",
+		"globals": "^16.0.0",
+		"prettier": "3.5.3"
+	}
 }

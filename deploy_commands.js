@@ -1,36 +1,48 @@
-const { REST, Routes } = require('discord.js');
-const { clientId, guildId, discordToken } = require('./config.json');
-const fs = require('node:fs');
-const path = require('node:path');
+import { REST, Routes } from "discord.js";
+import JSONConfig from "./config.json" with { type: "json" };
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath, pathToFileURL } from "node:url";
+
+// Recreate __dirname
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const commands = [];
-// Grab all the command files from the commands directory you created earlier
-const commandsPath = path.join(__dirname, 'commands');
-const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
 
-// Grab the SlashCommandBuilder#toJSON() output of each command's data for deployment
+// Load command files
+const commandsPath = path.join(__dirname, "commands");
+const commandFiles = fs
+	.readdirSync(commandsPath)
+	.filter((file) => file.endsWith(".js"));
+
 for (const file of commandFiles) {
-	const command = require(`./commands/${file}`);
-	commands.push(command.data.toJSON());
+	const filePath = pathToFileURL(path.join(commandsPath, file)).href;
+	const command = await import(filePath);
+
+	if ("data" in command && typeof command.data.toJSON === "function") {
+		commands.push(command.data.toJSON());
+	} else {
+		console.warn(
+			`[WARNING] The command at ${file} is missing a "data" property or toJSON method.`,
+		);
+	}
 }
 
-// Construct and prepare an instance of the REST module
-const rest = new REST({ version: '10' }).setToken(discordToken);
+// Register commands with Discord
+const rest = new REST({ version: "10" }).setToken(JSONConfig.discordToken);
 
-// and deploy your commands!
-(async () => {
-	try {
-		console.log(`Started refreshing ${commands.length} application (/) commands.`);
+try {
+	console.log(
+		`Started refreshing ${commands.length} application (/) commands.`,
+	);
 
-		// The put method is used to fully refresh all commands in the guild with the current set
-		const data = await rest.put(
-			Routes.applicationGuildCommands(clientId, guildId),
-			{ body: commands },
-		);
+	const data = await rest.put(
+		Routes.applicationGuildCommands(JSONConfig.clientId, JSONConfig.guildId),
+		{ body: commands },
+	);
 
-		console.log(`Successfully reloaded ${data.length} application (/) commands.`);
-	} catch (error) {
-		// And of course, make sure you catch and log any errors!
-		console.error(error);
-	}
-})();
+	console.log(`Successfully reloaded ${data.length} application (/) commands.`);
+} catch (error) {
+	console.error(error);
+}

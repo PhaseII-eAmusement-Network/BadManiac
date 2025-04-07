@@ -1,10 +1,9 @@
-const { SlashCommandBuilder } = require('discord.js');
+import { SlashCommandBuilder } from "discord.js";
 
-module.exports = {
-	data: new SlashCommandBuilder()
-		.setName('bm')
-		.setDescription('Enter completely darkness.'),
-	async execute(interaction) {
-		await interaction.reply('https://youtu.be/0WqzvPS_bDg');
-	},
-};
+export const data = new SlashCommandBuilder()
+	.setName("bm")
+	.setDescription("Enter completely darkness.");
+
+export async function execute(interaction) {
+	await interaction.reply("https://youtu.be/JXeFeOTqxWc");
+}
