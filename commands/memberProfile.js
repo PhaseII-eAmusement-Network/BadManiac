@@ -10,7 +10,7 @@ export const data = new SlashCommandBuilder()
             .setRequired(false)
     );
 
-export async function execute(interaction) {
+export async function execute(interaction, BMConfig = {}) {
     // Get the target user (either specified or the command user)
     const target = interaction.options.getUser("user") || interaction.user;
     const member = await interaction.guild.members.fetch(target.id);

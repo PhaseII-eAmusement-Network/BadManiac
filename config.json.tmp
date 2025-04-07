@@ -1,6 +1,7 @@
 {
     "clientId": "",
     "guildId": "",
+    "adminRole": "",
     "discordToken": "",
     "maniacToken": "",
     "uploadPath": "uploads/",
