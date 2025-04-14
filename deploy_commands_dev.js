@@ -1,3 +1,5 @@
+// single server load
+
 import { REST, Routes } from "discord.js";
 import JSONConfig from "./config.json" with { type: "json" };
 import fs from "node:fs";
@@ -8,28 +10,20 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+const commands = [];
+
 // Load command files
 const commandsPath = path.join(__dirname, "commands");
 const commandFiles = fs
 	.readdirSync(commandsPath)
 	.filter((file) => file.endsWith(".js"));
 
-	const guildCommands = [];
-	const adminCommands = [];
-	
 for (const file of commandFiles) {
 	const filePath = pathToFileURL(path.join(commandsPath, file)).href;
 	const command = await import(filePath);
 
 	if ("data" in command && typeof command.data.toJSON === "function") {
-		const json = command.data.toJSON();
-		const isAdmin = command.meta?.adminOnly === true;
-
-		if (isAdmin) {
-			adminCommands.push(json);
-		} else {
-			guildCommands.push(json);
-		}
+		commands.push(command.data.toJSON());
 	} else {
 		console.warn(
 			`[WARNING] The command at ${file} is missing a "data" property or toJSON method.`,
@@ -42,21 +36,15 @@ const rest = new REST({ version: "10" }).setToken(JSONConfig.discordToken);
 
 try {
 	console.log(
-		`Started refreshing ${guildCommands.length} guild commands and ${adminCommands.length} admin commands.`,
+		`Started refreshing ${commands.length} application (/) commands.`,
 	);
 
-	const guildResult = await rest.put(
+	const data = await rest.put(
 		Routes.applicationGuildCommands(JSONConfig.clientId, JSONConfig.guildId),
-		{ body: guildCommands },
+		{ body: commands },
 	);
 
-	const adminResult = await rest.put(
-		Routes.applicationGuildCommands(JSONConfig.clientId, JSONConfig.adminGuildId),
-		{ body: adminCommands },
-	);
-
-	console.log(`Successfully reloaded ${guildResult.length} guild commands.`);
-	console.log(`Successfully reloaded ${adminResult.length} admin commands.`);
+	console.log(`Successfully reloaded ${data.length} application (/) commands.`);
 } catch (error) {
 	console.error(error);
 }

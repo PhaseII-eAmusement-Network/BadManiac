@@ -1,10 +1,9 @@
 import { SlashCommandBuilder, EmbedBuilder, MessageFlags } from "discord.js";
-import { v4 as uuidv4 } from "uuid";
 import { Database } from "../db/index.js";
 
 export const data = new SlashCommandBuilder()
-	.setName("generate-apikey")
-	.setDescription("Generates an API key for the bot (Admin only)");
+	.setName("generate-greeting-key")
+	.setDescription("Generates a key for the greetings channel (Admin only)");
 
 export const meta = {
 	adminOnly: true,
@@ -20,21 +19,17 @@ export async function execute(interaction, BMConfig = {}) {
 		});
 	}
 
-	const apiKey = uuidv4();
-	Database.update(({ keys }) =>
-		keys.push({ member: interaction.user.tag, key: apiKey }),
-	);
+	const newKey = Math.floor(1000 + Math.random() * 9000);
+	await Database.read();
+	Database.data["greetingKey"] = newKey;
+	await Database.write();
 
 	const apiKeyEmbed = new EmbedBuilder()
 		.setColor("#00ff00")
-		.setTitle("API Key Generated")
-		.setDescription("A new API key has been generated for BadManiac.")
+		.setTitle("Greeting key updated")
+		.setDescription("A new Greeting key has been generated.")
 		.addFields(
-			{ name: "API Key", value: "```" + apiKey + "```" },
-			{
-				name: "Note",
-				value: "This key has been logged to the console. Store it securely!",
-			},
+			{ name: "Key", value: "```" + newKey + "```" }
 		)
 		.setTimestamp()
 		.setFooter({
@@ -44,6 +39,5 @@ export async function execute(interaction, BMConfig = {}) {
 
 	await interaction.reply({
 		embeds: [apiKeyEmbed],
-		flags: MessageFlags.Ephemeral,
 	});
 }

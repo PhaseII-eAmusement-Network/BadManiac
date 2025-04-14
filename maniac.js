@@ -10,6 +10,7 @@ import {
 	GatewayIntentBits,
 	Collection,
 	ActivityType,
+	MessageFlags,
 } from "discord.js";
 import {
 	buildArcadeEmbed,
@@ -127,12 +128,12 @@ client.on(Events.InteractionCreate, async (interaction) => {
 		if (interaction.replied || interaction.deferred) {
 			await interaction.followUp({
 				content: "There was an error while executing this command!",
-				ephemeral: true,
+				flags: MessageFlags.Ephemeral,
 			});
 		} else {
 			await interaction.reply({
 				content: "There was an error while executing this command!",
-				ephemeral: true,
+				flags: MessageFlags.Ephemeral,
 			});
 		}
 	}
@@ -140,16 +141,23 @@ client.on(Events.InteractionCreate, async (interaction) => {
 
 client.on("messageCreate", (msg) => {
 	if (msg.content.toLowerCase().includes("now who dat is")) {
-		msg.reply("My baby mama!\n https://youtu.be/6aqFYo-9L_M");
+		msg.reply("My baby mama!\n https://youtu.be/DNJQAwr-cmA");
 	}
 });
 
 client.on("guildMemberAdd", (member) => {
-	const channel = member.guild.channels.cache.get("798960457733898281");
+	const greetingChannel = JSONConfig.greetingChannel;
+	if (!greetingChannel || greetingChannel === "") {
+		return;
+	}
+
+	const rulesChannel = JSONConfig.rulesChannel ?? "";
+	const guidesChannel = JSONConfig.guidesChannel ?? "";
+	const channel = member.guild.channels.cache.get(greetingChannel);
 	channel.send(
 		`Welcome to ${"`PhaseII`"} <:phaseii:845485429587050496>, <@!${member.id}>!\n` +
-			"Please read <#798960393761325087> and <#813147987759988756>,\n" +
-			"and come here when done!",
+			`Please read <#${rulesChannel}> and <#${guidesChannel}>,\n` +
+			"and use the command `/greeting` when done!",
 	);
 });
 
@@ -244,8 +252,8 @@ app.post("/onboardArcade", (req, res) => {
 			"### DNS not working?\n" +
 			"The direct server IP is `10.5.7.3`\n" +
 			"## Need Help?\n" +
-			"Please refer to https://discord.com/channels/798959764394344449/813147987759988756\n" +
-			"You can always ask for help here --> https://discord.com/channels/798959764394344449/908224208130166805\n" +
+			`Please refer to https://discord.com/channels/798959764394344449/813147987759988756\n` +
+			`You can always ask for help here --> https://discord.com/channels/798959764394344449/908224208130166805\n` +
 			"If you need to make an adjustment to your arcade, please contact a Community Manager or a SysOp. Thanks!",
 	);
 

@@ -23,6 +23,10 @@ export const data = new SlashCommandBuilder()
 			.setRequired(true),
 	);
 
+export const meta = {
+	adminOnly: true,
+};
+
 export async function execute(interaction, BMConfig = {}) {
 	const member = interaction.member;
 
