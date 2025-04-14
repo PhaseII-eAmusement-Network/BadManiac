@@ -157,7 +157,7 @@ client.on("guildMemberAdd", (member) => {
 	channel.send(
 		`Welcome to ${"`PhaseII`"} <:phaseii:845485429587050496>, <@!${member.id}>!\n` +
 			`Please read <#${rulesChannel}> and <#${guidesChannel}>,\n` +
-			"and use the command `/greeting` when done!",
+			"and use the command `/submit-greeting` when done!",
 	);
 });
 
