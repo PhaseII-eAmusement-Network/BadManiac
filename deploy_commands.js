@@ -14,9 +14,9 @@ const commandFiles = fs
 	.readdirSync(commandsPath)
 	.filter((file) => file.endsWith(".js"));
 
-	const guildCommands = [];
-	const adminCommands = [];
-	
+const guildCommands = [];
+const adminCommands = [];
+
 for (const file of commandFiles) {
 	const filePath = pathToFileURL(path.join(commandsPath, file)).href;
 	const command = await import(filePath);
@@ -51,7 +51,10 @@ try {
 	);
 
 	const adminResult = await rest.put(
-		Routes.applicationGuildCommands(JSONConfig.clientId, JSONConfig.adminGuildId),
+		Routes.applicationGuildCommands(
+			JSONConfig.clientId,
+			JSONConfig.adminGuildId,
+		),
 		{ body: adminCommands },
 	);
 

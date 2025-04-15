@@ -23,7 +23,10 @@ export async function execute(interaction, BMConfig = {}) {
 
 	try {
 		await Database.read();
-		if (interaction.options.getInteger("secret-key") === (Database.data["greetingKey"] ?? null)) {
+		if (
+			interaction.options.getInteger("secret-key") ===
+			(Database.data["greetingKey"] ?? null)
+		) {
 			await interaction.reply({
 				content: "Access granted.",
 				flags: MessageFlags.Ephemeral,
@@ -31,9 +34,7 @@ export async function execute(interaction, BMConfig = {}) {
 
 			await member.roles.add(BMConfig.playerRole);
 			const channel = member.guild.channels.cache.get(BMConfig.generalChannel);
-			await channel.send(
-				`Welcome, <@!${member.id}>!`
-			);
+			await channel.send(`Welcome, <@!${member.id}>!`);
 		} else {
 			await interaction.reply({
 				content: "Incorrect secret key!",
@@ -41,6 +42,6 @@ export async function execute(interaction, BMConfig = {}) {
 			});
 		}
 	} catch (error) {
-		console.error(error)
+		console.error(error);
 	}
 }
