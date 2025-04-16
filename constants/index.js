@@ -35,6 +35,31 @@ export class GameConstants {
 	static WINNING_ELEVEN = "weac";
 }
 
+export const GameOptions = [
+	{ label: "BeatStream", value: "bst" },
+	{ label: "The ⭐ Bishi Bashi", value: "bishi" },
+	{ label: "Bishi Bashi Channel", value: "newbishi" },
+	{ label: "DanceEvolution", value: "danevo" },
+	{ label: "DANCERUSH", value: "dancerush" },
+	{ label: "DanceDanceRevolution", value: "ddr" },
+	{ label: "DrumMania", value: "dm" },
+	{ label: "FutureTomTom", value: "ftt" },
+	{ label: "GITADORA (DrumMania)", value: "gitadora_dm" },
+	{ label: "GITADORA (GuitarFreaks)", value: "gitadora_gf" },
+	{ label: "GuitarFreaks", value: "gf" },
+	{ label: "beatmania IIDX", value: "iidx" },
+	{ label: "jubeat", value: "jubeat" },
+	{ label: "LovePlus", value: "loveplus" },
+	{ label: "MÚSECA", value: "museca" },
+	{ label: "Nostalgia", value: "nost" },
+	{ label: "PASELI Charge Machine", value: "paseli" },
+	{ label: "pop'n music", value: "pnm" },
+	{ label: "REFLEC BEAT", value: "reflec" },
+	{ label: "ROAD FIGHTERS", value: "roadfighters" },
+	{ label: "SOUND VOLTEX", value: "sdvx" },
+	{ label: "Tsum Tsum", value: "tsum" },
+];
+
 export class VersionConstants {
 	static BEATSTREAM = 1;
 	static BEATSTREAM_2 = 2;

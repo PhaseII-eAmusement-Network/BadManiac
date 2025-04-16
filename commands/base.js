@@ -5,5 +5,7 @@ export const data = new SlashCommandBuilder()
 	.setDescription("Enter completely darkness.");
 
 export async function execute(interaction, BMConfig = {}) {
-	await interaction.reply("https://youtu.be/JXeFeOTqxWc");
+	await interaction.reply(
+		"BadManiac is open source!\nhttps://github.com/PhaseII-eAmusement-Network/BadManiac\n\nhttps://youtu.be/JXeFeOTqxWc",
+	);
 }

@@ -10,6 +10,7 @@
     "adminChannel": "",
     "playerRole": "",
     "adminRole": "",
+    "PCBIDRole": "",
     "discordToken": "",
     "maniacToken": "",
     "uploadPath": "uploads/",
