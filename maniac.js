@@ -216,20 +216,27 @@ app.get("/member/:id", async (req, res) => {
 	const userId = req.params.id;
 
 	try {
-		const user = await client.users.fetch(userId);
+		const guild = await client.guilds.fetch(JSONConfig.guildId);
+		const member = await guild.members.fetch(userId);
 
-		if (user) {
+		const roles = member.roles.cache
+			.filter((role) => role.name !== "@everyone")
+			.map((role) => role.name)
+			.join(", ") || "No roles";
+
+		if (member) {
 			res.json({
-				username: user.username,
-				displayName: user.displayName,
-				avatar: user.displayAvatarURL({ dynamic: true, size: 1024 }),
+				username: member.user.username,
+				displayName: member.displayName,
+				avatar: member.user.displayAvatarURL({ dynamic: true, size: 1024 }),
+				roles: roles,
 			});
 		} else {
-			res.status(404).send("User not found");
+			res.status(404).send("Member not found");
 		}
 	} catch (error) {
 		console.error(error);
-		res.status(500).send("Error fetching user");
+		res.status(500).send("Error fetching member");
 	}
 });
 
