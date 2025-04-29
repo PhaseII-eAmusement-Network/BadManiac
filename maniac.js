@@ -221,8 +221,7 @@ app.get("/member/:id", async (req, res) => {
 
 		const roles = member.roles.cache
 			.filter((role) => role.name !== "@everyone")
-			.map((role) => role.name)
-			.join(", ") || "No roles";
+			.map((role) => role.id);
 
 		if (member) {
 			res.json({
