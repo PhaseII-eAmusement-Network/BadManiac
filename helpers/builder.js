@@ -262,3 +262,35 @@ export function buildPNMEmbed(scorecard) {
 		)
 		.setFooter({ text: `Recorded on: ${now}` });
 }
+
+export function buildExceptionEmbed(exceptionData) {
+	const author = {
+		name: "PhaseII Event Logger",
+		iconURL: "https://phaseii.network/static/favicon.png",
+		url: "https://phaseii.network/admin/events",
+	};
+	const now = new Date().toLocaleString();
+
+	var embed = new EmbedBuilder()
+		.setTitle(`Service Exception!`)
+		.setDescription("View the event log for more information.")
+		.setAuthor(author)
+		.addFields(
+			{ name: "Service", value: exceptionData.service, inline: false }
+		)
+		.setFooter({ text: `Recorded on: ${now}` });
+
+	if (exceptionData.service === "xrpc") {
+		embed.addFields(
+			{ name: "Model", value: `\`\`\`fix\n${exceptionData.model}\`\`\``, inline: false },
+			{ name: "Request", value: `\`\`\`fix\n${exceptionData.request}\`\`\``, inline: true },
+			{ name: "Method", value: `\`\`\`fix\n${exceptionData.method}\`\`\``, inline: true },
+			{ name: "PCBID", value: `\`\`\`fix\n${exceptionData.PCBID}\`\`\``, inline: false },
+		)
+	} else {
+		embed.addFields({ name: "Request", value: `\`\`\`xml\n${exceptionData.request}\`\`\``, inline: true })
+	}
+
+	embed.addFields({ name: "Traceback", value: `\`\`\`py\n${exceptionData.traceback}\`\`\``, inline: false })
+	return embed
+}

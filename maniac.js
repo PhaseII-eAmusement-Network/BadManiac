@@ -17,6 +17,7 @@ import {
 	buildIIDXEmbed,
 	buildDDREmbed,
 	buildPNMEmbed,
+	buildExceptionEmbed,
 } from "./helpers/builder.js";
 import { handleReaction } from "./helpers/reaction.js";
 import JSONConfig from "./config.json" with { type: "json" };
@@ -416,6 +417,29 @@ app.post("/sendScorecardPM", async function (req, res) {
 	} catch (error) {
 		console.error("Error sending PM:", error);
 		res.status(500).send("Failed to send scorecard.");
+	}
+});
+
+app.post("/adminServiceException", async (req, res) => {
+	try {
+		const requestData = await req.body;
+		const guild = await client.guilds.fetch(JSONConfig.guildId);
+		const channel = guild.channels.cache.get(JSONConfig.adminChannel);
+
+		if (!channel) {
+			console.error("Admin channel not found.");
+			return res.status(404).send("Admin channel not found.");
+		}
+
+		await channel.send({
+			content: `<@&${JSONConfig.sysopRole ?? ""}> u should fix this :100:`,
+			embeds: [buildExceptionEmbed(requestData)]
+		});
+
+		res.end();
+	} catch (error) {
+		console.error("Failed to send admin service exception message:", error);
+		res.status(500).send("Failed to notify admin.");
 	}
 });
 
