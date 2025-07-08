@@ -424,7 +424,7 @@ app.post("/adminServiceException", async (req, res) => {
 	try {
 		const requestData = await req.body;
 		const guild = await client.guilds.fetch(JSONConfig.guildId);
-		const channel = guild.channels.cache.get(JSONConfig.adminChannel);
+		const channel = guild.channels.cache.get(JSONConfig.errorChannel);
 
 		if (!channel) {
 			console.error("Admin channel not found.");
