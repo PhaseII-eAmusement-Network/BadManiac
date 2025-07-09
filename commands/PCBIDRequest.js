@@ -222,7 +222,7 @@ export async function execute(interaction, BMConfig = {}) {
 
 	const channel = interaction.guild.channels.cache.get(BMConfig.adminChannel);
 	await channel.send({
-		content: `<@&${BMConfig.PCBIDRole ?? ""}>\nA new PCBID Request has been submitted!\nNow automated!`,
+		content: `<@&${BMConfig.PCBIDRole ?? ""}>\nA new PCBID Request has been submitted! (Now automated!)`,
 	});
 
 	const buffer = Buffer.from(JSON.stringify(collectedData)).toString('base64')
