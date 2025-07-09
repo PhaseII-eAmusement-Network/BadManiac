@@ -222,10 +222,13 @@ export async function execute(interaction, BMConfig = {}) {
 
 	const channel = interaction.guild.channels.cache.get(BMConfig.adminChannel);
 	await channel.send({
-		content: `<@&${BMConfig.PCBIDRole ?? ""}>\nA new PCBID Request has been submitted!\nsoon:tm: to be automated`,
+		content: `<@&${BMConfig.PCBIDRole ?? ""}>\nA new PCBID Request has been submitted!\nNow automated!`,
 	});
+
+	const buffer = Buffer.from(JSON.stringify(collectedData)).toString('base64')
+	const baseUrl = BMConfig.onboardingUrl ?? ""
 	await channel.send({
-		content: `\`\`\`${JSON.stringify(collectedData, undefined, 4)}\`\`\``,
+		content: `${baseUrl}/${buffer}`,
 		files: [
 			{
 				attachment: imageBuffer,
