@@ -302,7 +302,7 @@ app.post("/successfulLink", (req, res) => {
 	client.users.fetch(requestData.discordId).then((user) => {
 		try {
 			user.send(
-				`## Congratulations!\nYou've successfully paired your Discord account to PhaseII. Now what?\n- You have a profile picture in the WebUI\n- Scorecards are now enabled and will be sent as embeds via this DM.\n- You'll be notified when your play video uploads complete.\n- You'll be notified about OTA update releases and statuses.\n- You'll be notified if you have any game configuration issues.\nEnjoy!\n\nYou can disable this service by unlinking Discord at https://web3.phaseii.network/#/profile/integrate.`,
+				`## Congratulations!\nYou've successfully paired your Discord account to PhaseII. Now what?\n- You have a profile picture in the WebUI\n- Scorecards are now enabled and will be sent as embeds via this DM.\n- You'll be notified when your play video uploads complete.\n- You'll be notified about OTA update releases and statuses.\n- You'll be notified if you have any game configuration issues.\nEnjoy!\n\nYou can disable this service by unlinking Discord at https://web3.phaseii.network/profile/integrate.`,
 			);
 		} catch (err) {
 			console.log(err);
