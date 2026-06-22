@@ -17,6 +17,7 @@ import {
 	buildIIDXEmbed,
 	buildDDREmbed,
 	buildPNMEmbed,
+	buildDDRLeagueResultEmbed,
 	buildExceptionEmbed,
 } from "./helpers/builder.js";
 import { handleReaction } from "./helpers/reaction.js";
@@ -417,6 +418,38 @@ app.post("/sendScorecardPM", async function (req, res) {
 	} catch (error) {
 		console.error("Error sending PM:", error);
 		res.status(500).send("Failed to send scorecard.");
+	}
+});
+
+app.post("/userLeagueResult", async function (req, res) {
+	const game = req.header("game");
+	const version = req.header("version");
+	const discord_id = req.header("discord_id");
+	const requestData = req.body;
+	const results = requestData.leagueResult;
+
+	if (!discord_id || !results || !game || !version) {
+		return res.status(400).send("Missing required headers or parameters.");
+	}
+
+	var embedCard;
+	try {
+		switch (game) {
+			case "ddr": {
+				embedCard = buildDDRLeagueResultEmbed(results, false);
+				break;
+			}
+
+			default:
+				return res.status(400).send("Unsupported game type.");
+		}
+
+		const user = await client.users.fetch(discord_id);
+		await user.send({ embeds: [embedCard] });
+		res.status(200).send("League sent.");
+	} catch (error) {
+		console.error("Error sending PM:", error);
+		res.status(500).send("Failed to send league.");
 	}
 });
 

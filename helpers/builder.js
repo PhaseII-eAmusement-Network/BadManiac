@@ -1,7 +1,7 @@
 import { EmbedBuilder } from "discord.js";
 const author = {
 	name: "PhaseII eAmusement Network",
-	iconURL: "https://phaseii.network/static/favicon.png",
+	iconURL: "https://phaseii.network/favicon.png",
 	url: "https://phaseii.network",
 };
 
@@ -261,6 +261,55 @@ export function buildPNMEmbed(scorecard) {
 			{ name: "Combos", value: scorecard.combo.toString(), inline: true },
 		)
 		.setFooter({ text: `Recorded on: ${now}` });
+}
+
+export function buildDDRLeagueResultEmbed(data, version) {
+	const now = new Date().toLocaleString();
+
+	const classTypes = [
+		"None",
+		"Bronze",
+		"Silver",
+		"Gold",
+		"Platinum",
+	];
+
+	const body = `Thank you for participating in "${data.leagueTitle}!"\n\nAfter calculating the results, `;
+	const promoted = `you have been promoted to the ${classTypes[data?.newClass]} class!`;
+	const demoted = `you have been demoted to the ${classTypes[data?.newClass]} class.`;
+	const noChange = `you are still in the ${classTypes[data?.newClass]} class.`;
+	const footer = `\n\nCheck in-game for the next league!`;
+
+	const borderCleared = data?.rank >= data?.border ? "❌" : "✅";
+
+	const rank = data?.rank?.toLocaleString() ?? "0";
+	const score = data?.score?.toLocaleString() ?? "0";
+	const border = data?.border?.toLocaleString() ?? "0";
+
+	let description = body;
+	if (data?.oldClass === data?.newClass) {
+		description += noChange + footer;
+	} else if (data?.oldClass > data?.newClass) {
+		description += demoted + footer;
+	} else {
+		description += promoted + footer;
+	}
+
+	const embed = new EmbedBuilder()
+		.setTitle(`DDR WORLD League - ${data?.leagueTitle}`)
+		.setDescription(description)
+		.setAuthor(author)
+		.addFields(
+			{ name: "Player", value: String(data?.username) },
+			{ name: "Rank", value: rank, inline: true },
+			{ name: "New Class", value: String(classTypes[data?.newClass]), inline: true },
+			{ name: "Total Score", value: score, inline: true },
+			{ name: "Advanced Border", value: border, inline: true },
+			{ name: "Border Cleared", value: borderCleared, inline: true }
+		)
+		.setFooter({ text: `Calculated: ${now}` });
+
+	return embed;
 }
 
 export function buildExceptionEmbed(exceptionData) {
