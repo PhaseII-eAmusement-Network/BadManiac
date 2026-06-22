@@ -280,7 +280,7 @@ export function buildDDRLeagueResultEmbed(data, version) {
 	const noChange = `you are still in the ${classTypes[data?.newClass]} class.`;
 	const footer = `\n\nCheck in-game for the next league!`;
 
-	const borderCleared = data?.rank >= data?.border ? "❌" : "✅";
+	const borderCleared = data?.score >= data?.border ? "✅" : "❌";
 
 	const rank = data?.rank?.toLocaleString() ?? "0";
 	const score = data?.score?.toLocaleString() ?? "0";
