@@ -1,4 +1,5 @@
 import { EmbedBuilder } from "discord.js";
+import { VersionConstants } from "../constants/index.js";
 const author = {
 	name: "PhaseII eAmusement Network",
 	iconURL: "https://phaseii.network/favicon.png",
@@ -273,6 +274,12 @@ export function buildDDRLeagueResultEmbed(data, version) {
 		"Gold",
 		"Platinum",
 	];
+	const title = new Map([
+		[VersionConstants.DDR_A20, "GOLDEN LEAGUE"],
+		[VersionConstants.DDR_A20_PLUS, "GOLDEN LEAGUE PLUS"],
+		[VersionConstants.DDR_A3, "GOLDEN LEAGUE A3"],
+		[VersionConstants.DDR_WORLD, "WORLD LEAGUE"],
+	]);
 
 	const body = `Thank you for participating in "${data.leagueTitle}!"\n\nAfter calculating the results, `;
 	const promoted = `you have been promoted to the ${classTypes[data?.newClass]} class!`;
@@ -296,7 +303,7 @@ export function buildDDRLeagueResultEmbed(data, version) {
 	}
 
 	const embed = new EmbedBuilder()
-		.setTitle(`DDR WORLD League - ${data?.leagueTitle}`)
+		.setTitle(`DDR ${title.get(version) ?? ""} League - ${data?.leagueTitle}`)
 		.setDescription(description)
 		.setAuthor(author)
 		.addFields(
