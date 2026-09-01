@@ -91,6 +91,7 @@ export class VersionConstants {
 	static DDR_A20 = 17;
 	static DDR_A20_PLUS = 18;
 	static DDR_A3 = 19;
+	static DDR_WORLD = 20;
 
 	static DRUMMANIA_1ST = 1;
 	static DRUMMANIA_2ND = 2;
