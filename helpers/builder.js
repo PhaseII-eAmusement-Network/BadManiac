@@ -303,7 +303,7 @@ export function buildDDRLeagueResultEmbed(data, version) {
 	}
 
 	const embed = new EmbedBuilder()
-		.setTitle(`DDR ${title.get(version) ?? ""} League - ${data?.leagueTitle}`)
+		.setTitle(`DDR ${title.get(version) ?? ""} - ${data?.leagueTitle}`)
 		.setDescription(description)
 		.setAuthor(author)
 		.addFields(
