@@ -436,7 +436,7 @@ app.post("/userLeagueResult", async function (req, res) {
 	try {
 		switch (game) {
 			case "ddr": {
-				embedCard = buildDDRLeagueResultEmbed(results, version);
+				embedCard = buildDDRLeagueResultEmbed(results, parseInt(version));
 				break;
 			}
 
